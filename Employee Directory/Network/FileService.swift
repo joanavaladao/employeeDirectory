@@ -38,6 +38,14 @@ class FileService {
             if !fileManager.fileExists(atPath: temporaryFolder.path) {
                 try fileManager.createDirectory(at: temporaryFolder, withIntermediateDirectories: true, attributes: nil)
             }
+            
+            if !fileManager.fileExists(atPath: largeImagesFolder.path) {
+                try fileManager.createDirectory(at: largeImagesFolder, withIntermediateDirectories: true, attributes: nil)
+            }
+            
+            if !fileManager.fileExists(atPath: smallImagesFolder.path) {
+                try fileManager.createDirectory(at: smallImagesFolder, withIntermediateDirectories: true, attributes: nil)
+            }
         } catch (let error) {
             //TODO handle error
             print(error)
@@ -70,12 +78,21 @@ class FileService {
             let employeesData = try Data(contentsOf: file)
             let employeesListJSON = try decoder.decode(EmployeeJSONList.self, from: employeesData)
             for employeeJSON in employeesListJSON.employees {
-                let employee = Employee(employeeJSON, context: context)
+                _ = Employee(employeeJSON, context: context)
             }
+            context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
             appDelegate.saveContext()
         } catch let error {
             // TODO Manage error
             print(error)
         }
+    }
+    
+    func checkIfFileExists(path: String) -> Bool {
+        return fileManager.fileExists(atPath: path)
+    }
+    
+    func removeFile(at path: String) {
+        try? fileManager.removeItem(at: path)
     }
 }

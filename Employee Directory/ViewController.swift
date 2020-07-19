@@ -46,12 +46,38 @@ class ViewController: UIViewController {
           print("Could not fetch. \(error), \(error.userInfo)")
         }
     }
+    
+    func downloadSmallImages(fileService: FileService = FileService()) {
+        guard employeeList.count > 0,
+            let appDelegate = appDelegate else {
+            return
+        }
+        
+        for employee in employeeList {
+            guard employee.shouldDownloadSmallImage() else { return }
+            if !employee.photoSmallDisk.isEmpty {
+                fileService.removeFile(at: employee.photoSmallDisk)
+                employee.photoSmallDisk = nil
+            }
+            employee.photoSmallURL = employee.photoSmallNewURL
+            appDelegate.saveContext()
+            
+            downloadService.startDownload(of: .smallImage, from: employee.photoSmallURL)
+        }
+    }
 }
 
 extension ViewController: DownloadDelegate {
     func savedTemporaryFile(at url: URL, downloadType: DownloadType) {
-        if downloadType == .list {
+        switch downloadType {
+        case .list:
+            shouldDownloadSmallImages()
+            print("list")
+        case .smallImage:
             
+            print("small")
+        case .largeImage:
+            print("large")
         }
     }
     

@@ -17,7 +17,7 @@ enum EmployeeList: String {
 
 enum DownloadType {
     case list
-    case fullImage
+    case largeImage
     case smallImage
 }
 
@@ -63,7 +63,10 @@ extension DownloadService: URLSessionDownloadDelegate {
         let save = fileService.saveTemporaryFile(from: location, filename: filename)
         switch save {
         case .success(let url):
-            fileService.saveList(file: url)
+            if downloadType == .list {
+                fileService.saveList(file: url)
+            }
+            
             delegate.savedTemporaryFile(at: url, downloadType: downloadType)
         case .failure(let error):
             delegate.errorSavingFile(error, downloadType: downloadType)

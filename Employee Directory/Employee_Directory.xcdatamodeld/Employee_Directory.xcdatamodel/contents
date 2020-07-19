@@ -7,13 +7,20 @@
         <attribute name="fullName" optional="YES" attributeType="String"/>
         <attribute name="phoneNumber" optional="YES" attributeType="String"/>
         <attribute name="photoLargeDisk" optional="YES" attributeType="String"/>
+        <attribute name="photoLargeNewURL" optional="YES" attributeType="String"/>
         <attribute name="photoLargeURL" optional="YES" attributeType="String"/>
         <attribute name="photoSmallDisk" optional="YES" attributeType="String"/>
+        <attribute name="photoSmallNewURL" optional="YES" attributeType="String"/>
         <attribute name="photoSmallURL" optional="YES" attributeType="String"/>
         <attribute name="team" optional="YES" attributeType="String"/>
-        <attribute name="uuid" optional="YES" attributeType="String"/>
+        <attribute name="uuid" attributeType="String"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="uuid"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
     </entity>
     <elements>
-        <element name="Employee" positionX="-63" positionY="-18" width="128" height="208"/>
+        <element name="Employee" positionX="-63" positionY="-18" width="128" height="238"/>
     </elements>
 </model>
