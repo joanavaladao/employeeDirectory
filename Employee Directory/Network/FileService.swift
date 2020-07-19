@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import CoreData
+import UIKit
 
 class FileService {
     lazy var rootFolder: URL = {
@@ -31,10 +33,21 @@ class FileService {
         self.fileManager = fileManager
     }
     
+    func createDirectories() {
+        do {
+            if !fileManager.fileExists(atPath: temporaryFolder.path) {
+                try fileManager.createDirectory(at: temporaryFolder, withIntermediateDirectories: true, attributes: nil)
+            }
+        } catch (let error) {
+            //TODO handle error
+            print(error)
+        }
+    }
+    
     func saveTemporaryFile(from path: URL, filename: String) -> Result<URL, Error> {
         let destinationURL: URL = temporaryFolder.appendingPathComponent(filename)
         do {
-            try fileManager.removeItem(at: destinationURL)
+            try? fileManager.removeItem(at: destinationURL)
             try fileManager.copyItem(at: path, to: destinationURL)
             return .success(destinationURL)
         } catch let error {
@@ -42,7 +55,27 @@ class FileService {
         }
     }
     
-    func saveList(file: URL) {
-        Employee
+    func saveList(file: URL,
+                  appDelegate: AppDelegate? = appDelegate,
+                  context: NSManagedObjectContext? = context) {
+        guard let appDelegate = appDelegate,
+            let context = context else {
+                //TODO error
+                return
+        }
+        
+        let decoder = JSONDecoder()
+
+        do {
+            let employeesData = try Data(contentsOf: file)
+            let employeesListJSON = try decoder.decode(EmployeeJSONList.self, from: employeesData)
+            for employeeJSON in employeesListJSON.employees {
+                let employee = Employee(employeeJSON, context: context)
+            }
+            appDelegate.saveContext()
+        } catch let error {
+            // TODO Manage error
+            print(error)
+        }
     }
 }

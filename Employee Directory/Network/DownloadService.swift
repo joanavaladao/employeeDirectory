@@ -22,7 +22,7 @@ enum DownloadType {
 }
 
 protocol DownloadDelegate {
-    func savedTemporaryFile(url: URL, downloadType: DownloadType)
+    func savedTemporaryFile(at url: URL, downloadType: DownloadType)
     func errorDownloadingFile(_ error: Error, downloadType: DownloadType)
     func errorSavingFile(_ error: Error, downloadType: DownloadType)
 }
@@ -40,6 +40,7 @@ class DownloadService: NSObject {
     init(delegate: DownloadDelegate, fileService: FileService = FileService()) {
         self.delegate = delegate
         self.fileService = fileService
+        self.fileService.createDirectories()
     }
     
     func startDownload (of type: DownloadType, from path: String) {
@@ -48,7 +49,6 @@ class DownloadService: NSObject {
             return
         }
         self.downloadType = type
-        
         let task = session.downloadTask(with: requestURL)
         task.resume()
     }
@@ -63,7 +63,8 @@ extension DownloadService: URLSessionDownloadDelegate {
         let save = fileService.saveTemporaryFile(from: location, filename: filename)
         switch save {
         case .success(let url):
-            delegate.savedTemporaryFile(url: url, downloadType: downloadType)
+            fileService.saveList(file: url)
+            delegate.savedTemporaryFile(at: url, downloadType: downloadType)
         case .failure(let error):
             delegate.errorSavingFile(error, downloadType: downloadType)
         }
@@ -76,3 +77,6 @@ extension DownloadService: URLSessionDownloadDelegate {
         delegate.errorDownloadingFile(error, downloadType: downloadType)
     }
 }
+
+
+

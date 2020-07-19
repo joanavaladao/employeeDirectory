@@ -7,6 +7,10 @@
 //
 
 import UIKit
+import CoreData
+
+var appDelegate: AppDelegate?
+var context: NSManagedObjectContext?
 
 class ViewController: UIViewController {
 
@@ -14,20 +18,43 @@ class ViewController: UIViewController {
         return DownloadService(delegate: self)
     }()
     
+    var employeeList: [Employee] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        DispatchQueue.main.async {
+            appDelegate = UIApplication.shared.delegate as? AppDelegate
+            context = appDelegate?.persistentContainer.viewContext
+        }
     }
 
     @IBAction func read(_ sender: UIButton) {
         print("****** Button pressed")
-        downloadService.startDownload(of: .list, from: EmployeeList.timeout.rawValue)
+        downloadService.startDownload(of: .list, from: EmployeeList.fullList.rawValue)
     }
     
+    @IBAction func show(_ sender: UIButton) {
+        guard let context = context else {
+            return
+        }
+        
+        do {
+          employeeList = try context.fetch(Employee.fetchRequest())
+            print(employeeList)
+        } catch let error as NSError {
+          print("Could not fetch. \(error), \(error.userInfo)")
+        }
+    }
 }
 
 extension ViewController: DownloadDelegate {
-    func savedTemporaryFile(url: URL, downloadType: DownloadType){}
+    func savedTemporaryFile(at url: URL, downloadType: DownloadType) {
+        if downloadType == .list {
+            
+        }
+    }
+    
     func errorDownloadingFile(_ error: Error, downloadType: DownloadType){}
     func errorSavingFile(_ error: Error, downloadType: DownloadType){}
 }
