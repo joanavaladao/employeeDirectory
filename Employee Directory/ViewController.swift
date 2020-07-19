@@ -31,10 +31,43 @@ class ViewController: UIViewController {
 
     @IBAction func read(_ sender: UIButton) {
         print("****** Button pressed")
-        downloadService.startDownload(of: .list, from: EmployeeList.fullList.rawValue)
+        downloadService.startDownload(of: .list, from: EmployeeList.fullList.rawValue, to: "LIST")
     }
     
     @IBAction func show(_ sender: UIButton) {
+        print(employeeList)
+    }
+    
+    func downloadSmallImages(fileService: FileService = FileService()) {
+        guard employeeList.count > 0,
+            let appDelegate = appDelegate else {
+            return
+        }
+        
+        for employee in employeeList {
+            guard employee.shouldDownloadSmallImage() else { return }
+            let diskPath: String = employee.photoSmallDisk ?? ""
+            if !diskPath.isEmpty {
+                fileService.removeFile(at: diskPath)
+                employee.photoSmallDisk = nil
+            }
+            employee.photoSmallURL = employee.photoSmallNewURL
+            
+            
+            guard let newDiskPath = employee.photoSmallURL else {
+                // TODO: erro?
+                return
+            }
+            let filename = URL(fileURLWithPath: newDiskPath).lastPathComponent
+            let destiny = fileService.smallImagesFolder.appendingPathComponent("\(employee.uuid)-\(filename)")
+            employee.photoSmallDisk = destiny.path
+            appDelegate.saveContext()
+            
+            downloadService.startDownload(of: .smallImage, from: newDiskPath, to: destiny.path)
+        }
+    }
+    
+    func loadEmployeeList() {
         guard let context = context else {
             return
         }
@@ -46,32 +79,14 @@ class ViewController: UIViewController {
           print("Could not fetch. \(error), \(error.userInfo)")
         }
     }
-    
-    func downloadSmallImages(fileService: FileService = FileService()) {
-        guard employeeList.count > 0,
-            let appDelegate = appDelegate else {
-            return
-        }
-        
-        for employee in employeeList {
-            guard employee.shouldDownloadSmallImage() else { return }
-            if !employee.photoSmallDisk.isEmpty {
-                fileService.removeFile(at: employee.photoSmallDisk)
-                employee.photoSmallDisk = nil
-            }
-            employee.photoSmallURL = employee.photoSmallNewURL
-            appDelegate.saveContext()
-            
-            downloadService.startDownload(of: .smallImage, from: employee.photoSmallURL)
-        }
-    }
 }
 
 extension ViewController: DownloadDelegate {
     func savedTemporaryFile(at url: URL, downloadType: DownloadType) {
         switch downloadType {
         case .list:
-            shouldDownloadSmallImages()
+            loadEmployeeList()
+            downloadSmallImages()
             print("list")
         case .smallImage:
             

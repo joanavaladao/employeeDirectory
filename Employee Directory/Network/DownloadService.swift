@@ -29,8 +29,8 @@ protocol DownloadDelegate {
 
 class DownloadService: NSObject {
     lazy var session: URLSession = {
-        let configuration = URLSessionConfiguration.background(withIdentifier: "com.valadao.joana.employeeDirectory")
-        return URLSession(configuration: configuration, delegate: self, delegateQueue: nil)
+        let configuration = URLSessionConfiguration.default
+        return URLSession(configuration: configuration)
     }()
     
     var delegate: DownloadDelegate
@@ -43,43 +43,78 @@ class DownloadService: NSObject {
         self.fileService.createDirectories()
     }
     
-    func startDownload (of type: DownloadType, from path: String) {
+    func startDownload (of type: DownloadType, from path: String, to destinyPath: String?) {
         guard let requestURL: URL = URL(string: path) else {
             // TODO: throw an error
             return
         }
         self.downloadType = type
-        let task = session.downloadTask(with: requestURL)
+        let task = session.downloadTask(with: requestURL) { url, response, error in
+            guard error == nil else {
+                // TODO: tratar erro
+                return
+            }
+            
+            guard let url = url else {
+                //TODO: tratar erro
+                return
+            }
+            
+            switch self.downloadType {
+            case .list:
+                let filename: String = requestURL.lastPathComponent
+                let status = self.fileService.saveTemporaryFile(from: url, filename: filename)
+                switch status {
+                case .success(let url):
+                    self.fileService.saveList(file: url)
+                    self.delegate.savedTemporaryFile(at: url, downloadType: .list)
+                case .failure(let error):
+                    self.delegate.errorSavingFile(error, downloadType: self.downloadType)
+                }
+            default:
+                guard let destinyPath = destinyPath else {
+                    // TODO
+                    return
+                }
+                let status = self.fileService.saveFile(from: url, to: destinyPath)
+                switch status {
+                case .success(_):
+                    self.delegate.savedTemporaryFile(at: url, downloadType: self.downloadType)
+                case .failure(let error):
+                    self.delegate.errorSavingFile(error, downloadType: self.downloadType)
+                }
+            }
+        }
         task.resume()
     }
 }
 
-extension DownloadService: URLSessionDownloadDelegate {
-    func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
-        guard let filename: String = downloadTask.originalRequest?.url?.lastPathComponent else {
-            //TODO: treat error
-            return
-        }
-        let save = fileService.saveTemporaryFile(from: location, filename: filename)
-        switch save {
-        case .success(let url):
-            if downloadType == .list {
-                fileService.saveList(file: url)
-            }
-            
-            delegate.savedTemporaryFile(at: url, downloadType: downloadType)
-        case .failure(let error):
-            delegate.errorSavingFile(error, downloadType: downloadType)
-        }
-    }
-    
-    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-        guard let error = error else {
-            return
-        }
-        delegate.errorDownloadingFile(error, downloadType: downloadType)
-    }
-}
+//extension DownloadService: URLSessionDownloadDelegate {
+//    func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
+//        guard let filename: String = downloadTask.originalRequest?.url?.lastPathComponent else {
+//            //TODO: treat error
+//            return
+//        }
+//        let save = fileService.saveTemporaryFile(from: location, filename: filename)
+//        switch save {
+//        case .success(let url):
+//            if downloadType == .list {
+//                fileService.saveList(file: url)
+//            }
+//
+//            delegate.savedTemporaryFile(at: url, downloadType: downloadType)
+//        case .failure(let error):
+//            delegate.errorSavingFile(error, downloadType: downloadType)
+//        }
+//    }
+//
+//    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+//        guard let error = error else {
+//            return
+//        }
+//        delegate.errorDownloadingFile(error, downloadType: downloadType)
+//    }
+//}
 
 
 

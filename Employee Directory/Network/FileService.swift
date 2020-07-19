@@ -54,10 +54,23 @@ class FileService {
     
     func saveTemporaryFile(from path: URL, filename: String) -> Result<URL, Error> {
         let destinationURL: URL = temporaryFolder.appendingPathComponent(filename)
+        return saveFile(from: path, to: destinationURL.path)
+//        do {
+//            try? fileManager.removeItem(at: destinationURL)
+//            try fileManager.copyItem(at: path, to: destinationURL)
+//            return .success(destinationURL)
+//        } catch let error {
+//            return .failure(error)
+//        }
+    }
+    
+    func saveFile(from path: URL, to destinyPath: String) -> Result<URL, Error> {
+        let destinyURL = URL(fileURLWithPath: destinyPath)
+        
         do {
-            try? fileManager.removeItem(at: destinationURL)
-            try fileManager.copyItem(at: path, to: destinationURL)
-            return .success(destinationURL)
+            try? fileManager.removeItem(at: destinyURL)
+            try fileManager.copyItem(at: path, to: destinyURL)
+            return .success(destinyURL)
         } catch let error {
             return .failure(error)
         }
@@ -93,6 +106,6 @@ class FileService {
     }
     
     func removeFile(at path: String) {
-        try? fileManager.removeItem(at: path)
+        try? fileManager.removeItem(atPath: path)
     }
 }
