@@ -12,6 +12,7 @@ enum EmployeeList: String {
     case fullList = "https://s3.amazonaws.com/sq-mobile-interview/employees.json"
     case wrongList = "https://s3.amazonaws.com/sq-mobile-interview/employees_malformed.json"
     case emptyList = "https://s3.amazonaws.com/sq-mobile-interview/employees_empty.json"
+    case timeout = "http://httpbin.org/delay/60000"
 }
 
 enum DownloadType {
@@ -21,7 +22,9 @@ enum DownloadType {
 }
 
 protocol DownloadDelegate {
-    
+    func savedTemporaryFile(url: URL, downloadType: DownloadType)
+    func errorDownloadingFile(_ error: Error, downloadType: DownloadType)
+    func errorSavingFile(_ error: Error, downloadType: DownloadType)
 }
 
 class DownloadService: NSObject {
@@ -31,9 +34,12 @@ class DownloadService: NSObject {
     }()
     
     var delegate: DownloadDelegate
+    var fileService: FileService
+    var downloadType: DownloadType = .list
 
-    init(delegate: DownloadDelegate) {
+    init(delegate: DownloadDelegate, fileService: FileService = FileService()) {
         self.delegate = delegate
+        self.fileService = fileService
     }
     
     func startDownload (of type: DownloadType, from path: String) {
@@ -41,6 +47,7 @@ class DownloadService: NSObject {
             // TODO: throw an error
             return
         }
+        self.downloadType = type
         
         let task = session.downloadTask(with: requestURL)
         task.resume()
@@ -49,16 +56,23 @@ class DownloadService: NSObject {
 
 extension DownloadService: URLSessionDownloadDelegate {
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
-        print("*********************** FINISHED DOWNLOAD")
-        print("Session: \(session)")
-        print("Task: \(downloadTask)")
-        print("Location: \(location)")
+        guard let filename: String = downloadTask.originalRequest?.url?.lastPathComponent else {
+            //TODO: treat error
+            return
+        }
+        let save = fileService.saveTemporaryFile(from: location, filename: filename)
+        switch save {
+        case .success(let url):
+            delegate.savedTemporaryFile(url: url, downloadType: downloadType)
+        case .failure(let error):
+            delegate.errorSavingFile(error, downloadType: downloadType)
+        }
     }
     
     func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-        print("*********************** FINISHED DOWNLOAD with error")
-        print("Session: \(session)")
-        print("Task: \(task)")
-        print("Error: \(error?.localizedDescription)")
+        guard let error = error else {
+            return
+        }
+        delegate.errorDownloadingFile(error, downloadType: downloadType)
     }
 }

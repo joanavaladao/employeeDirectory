@@ -10,6 +10,10 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    lazy var downloadService: DownloadService = {
+        return DownloadService(delegate: self)
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -17,12 +21,13 @@ class ViewController: UIViewController {
 
     @IBAction func read(_ sender: UIButton) {
         print("****** Button pressed")
-        let x = DownloadService(delegate: self)
-        x.startDownload(of: .list, from: EmployeeList.fullList.rawValue)
+        downloadService.startDownload(of: .list, from: EmployeeList.timeout.rawValue)
     }
     
 }
 
 extension ViewController: DownloadDelegate {
-    
+    func savedTemporaryFile(url: URL, downloadType: DownloadType){}
+    func errorDownloadingFile(_ error: Error, downloadType: DownloadType){}
+    func errorSavingFile(_ error: Error, downloadType: DownloadType){}
 }
