@@ -15,6 +15,14 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
 
-
+    @IBAction func read(_ sender: UIButton) {
+        print("****** Button pressed")
+        let x = DownloadService(delegate: self)
+        x.startDownload(of: .list, from: EmployeeList.fullList.rawValue)
+    }
+    
 }
 
+extension ViewController: DownloadDelegate {
+    
+}
