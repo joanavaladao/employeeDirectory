@@ -12,7 +12,7 @@ import CoreData
 var appDelegate: AppDelegate?
 var context: NSManagedObjectContext?
 
-class ViewController: UIViewController {
+class EmployeeListViewController: UIViewController {
 
     lazy var downloadService: DownloadService = {
         return DownloadService(delegate: self)
@@ -81,7 +81,7 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController: DownloadDelegate {
+extension EmployeeListViewController: DownloadDelegate {
     func savedTemporaryFile(at url: URL, downloadType: DownloadType) {
         switch downloadType {
         case .list:
@@ -89,7 +89,6 @@ extension ViewController: DownloadDelegate {
             downloadSmallImages()
             print("list")
         case .smallImage:
-            
             print("small")
         case .largeImage:
             print("large")
