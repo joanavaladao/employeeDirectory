@@ -1,43 +1,31 @@
 //
-//  ViewController.swift
+//  EmployeeListViewModel.swift
 //  Employee Directory
 //
-//  Created by Joana Valadao on 2020-07-18.
+//  Created by Joana Valadao on 2020-07-19.
 //  Copyright © 2020 Joana Valadao. All rights reserved.
 //
 
 import UIKit
 import CoreData
 
-var appDelegate: AppDelegate?
-var context: NSManagedObjectContext?
-
-class EmployeeListViewController: UIViewController {
-
-    lazy var downloadService: DownloadService = {
-        return DownloadService(delegate: self)
-    }()
+class EmployeeListViewModel {
     
-    var employeeList: [Employee] = []
+    private var employeeList: [Employee] = []
+    private var downloadService: DownloadService
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
+    init(downloadDelegate: DownloadDelegate) {
         DispatchQueue.main.async {
             appDelegate = UIApplication.shared.delegate as? AppDelegate
             context = appDelegate?.persistentContainer.viewContext
         }
+        downloadService = DownloadService(delegate: downloadDelegate)
     }
+    
+    
+}
 
-    @IBAction func read(_ sender: UIButton) {
-        print("****** Button pressed")
-        downloadService.startDownload(of: .list, from: EmployeeList.fullList.rawValue, to: "LIST")
-    }
-    
-    @IBAction func show(_ sender: UIButton) {
-        print(employeeList)
-    }
-    
+private extension EmployeeListViewModel {
     func downloadSmallImages(fileService: FileService = FileService()) {
         guard employeeList.count > 0,
             let appDelegate = appDelegate else {
@@ -79,22 +67,4 @@ class EmployeeListViewController: UIViewController {
           print("Could not fetch. \(error), \(error.userInfo)")
         }
     }
-}
-
-extension EmployeeListViewController: DownloadDelegate {
-    func savedTemporaryFile(at url: URL, downloadType: DownloadType) {
-        switch downloadType {
-        case .list:
-            loadEmployeeList()
-            downloadSmallImages()
-            print("list")
-        case .smallImage:
-            print("small")
-        case .largeImage:
-            print("large")
-        }
-    }
-    
-    func errorDownloadingFile(_ error: Error, downloadType: DownloadType){}
-    func errorSavingFile(_ error: Error, downloadType: DownloadType){}
 }
