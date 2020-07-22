@@ -83,8 +83,8 @@
             filePath = "Employee Directory/Views/EmployeeListViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "48"
-            endingLineNumber = "48"
+            startingLineNumber = "57"
+            endingLineNumber = "57"
             landmarkName = "getImage(for:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -99,8 +99,8 @@
             filePath = "Employee Directory/Views/EmployeeListViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "86"
-            endingLineNumber = "86"
+            startingLineNumber = "104"
+            endingLineNumber = "104"
             landmarkName = "downloadSmallImages()"
             landmarkType = "7">
          </BreakpointContent>

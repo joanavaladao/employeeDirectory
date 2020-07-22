@@ -9,6 +9,11 @@
 import UIKit
 import CoreData
 
+enum SortBy {
+    case name
+    case team
+}
+
 class EmployeeListViewModel {
     
     private var employeeList: [Employee] = []
@@ -28,8 +33,12 @@ class EmployeeListViewModel {
     func loadInitialInformation() {
         loadSavedEmployees()
         if (employeeList.count == 0) {
-            loadEmployees()
+            loadEmployees(from: EmployeeListURL.wrongList.rawValue)
         }
+    }
+    
+    func refreshEmployeeList() {
+        loadEmployees()
     }
     
     func numberOfItems() -> Int {
@@ -54,6 +63,15 @@ class EmployeeListViewModel {
         return UIImage(contentsOfFile: imageURL.path) ?? placeHolder
     }
     
+    func sortBy(_ type: SortBy) {
+        switch type {
+        case .name:
+            employeeList.sort { $0.fullName < $1.fullName}
+        case .team:
+            employeeList.sort { $0.team < $1.team}
+        }
+        dataChanged()
+    }
 }
 
 private extension EmployeeListViewModel {

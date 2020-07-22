@@ -28,7 +28,8 @@ class EmployeeListViewController: UIViewController {
     lazy var navigationBar: UINavigationBar = {
         let bar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 44))
         let item = UINavigationItem(title: "Employee Directory")
-        item.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: nil, action: #selector(refresh))
+        item.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: nil, action: #selector(refreshEmployeeList))
+        item.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "settings"), style: .plain, target: nil, action: #selector(sortBy))
         bar.setItems([item], animated: true)
         bar.translatesAutoresizingMaskIntoConstraints = false
         return bar
@@ -74,8 +75,19 @@ private extension EmployeeListViewController {
         ])
     }
     
-    @objc func refresh() {
-        
+    @objc func refreshEmployeeList() {
+        viewModel.refreshEmployeeList()
+    }
+    
+    @objc func sortBy(_ sender: UIBarButtonItem){
+        let alert = UIAlertController(title: "Sort by:", message: nil, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Name", style: .default) { _ in
+            self.viewModel.sortBy(.name)
+        })
+        alert.addAction(UIAlertAction(title: "Team", style: .default) { _ in
+            self.viewModel.sortBy(.team)
+        })
+        present(alert, animated: true)
     }
 }
 
