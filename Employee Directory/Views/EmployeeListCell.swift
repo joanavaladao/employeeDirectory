@@ -10,14 +10,16 @@ import UIKit
 
 class EmployeeListCell: UICollectionViewCell {
     
-    lazy var photo: UIImageView = {
+    lazy var photoView: UIImageView = {
         let view = UIImageView(frame: .zero)
         view.image = UIImage(named: "person")
+        view.contentMode = .scaleAspectFill
+        view.clipsToBounds = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    lazy var name: UILabel = {
+    lazy var nameLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.text = "NAME"
         label.font = UIFont.systemFont(ofSize: 17.0)
@@ -27,7 +29,7 @@ class EmployeeListCell: UICollectionViewCell {
         return label
     }()
     
-    lazy var team: UILabel = {
+    lazy var teamLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.text = "TEAM"
         label.font = UIFont.systemFont(ofSize: 13.0)
@@ -38,7 +40,7 @@ class EmployeeListCell: UICollectionViewCell {
     }()
     
     lazy var stackLabel: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [name, team])
+        let stack = UIStackView(arrangedSubviews: [nameLabel, teamLabel])
         stack.axis = .vertical
         stack.alignment = .center
         stack.distribution = .fillEqually
@@ -48,7 +50,7 @@ class EmployeeListCell: UICollectionViewCell {
     }()
     
     lazy var stackView: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [photo, stackLabel])
+        let stack = UIStackView(arrangedSubviews: [photoView, stackLabel])
         stack.axis = .vertical
         stack.alignment = .center
         stack.distribution = .fillProportionally
@@ -78,8 +80,8 @@ private extension EmployeeListCell {
             stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8.0),
             stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8.0),
             
-            photo.heightAnchor.constraint(equalToConstant: 139.5),
-            photo.widthAnchor.constraint(equalToConstant: 139.0)
+            photoView.heightAnchor.constraint(equalToConstant: 139.5),
+            photoView.widthAnchor.constraint(equalToConstant: 139.0)
         ])
     }
 }

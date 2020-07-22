@@ -76,9 +76,9 @@ class FileService {
         }
     }
     
-    func saveList(file: URL,
-                  appDelegate: AppDelegate? = appDelegate,
-                  context: NSManagedObjectContext? = context) {
+    func persistEmployeeList(file: URL,
+                             appDelegate: AppDelegate? = appDelegate,
+                             context: NSManagedObjectContext? = context) {
         guard let appDelegate = appDelegate,
             let context = context else {
                 //TODO error
