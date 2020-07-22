@@ -35,6 +35,13 @@ class EmployeeListViewController: UIViewController {
         return bar
     }()
     
+    lazy var searchBar: UISearchBar = {
+        let bar = UISearchBar(frame: .zero)
+        bar.barStyle = .default
+        bar.translatesAutoresizingMaskIntoConstraints = false
+        return bar
+    }()
+    
     private var viewModel: EmployeeListViewModel!
     
     required init() {
@@ -61,6 +68,7 @@ private extension EmployeeListViewController {
     func setupView() {
         view.backgroundColor = .white
         view.addSubview(navigationBar)
+        view.addSubview(searchBar)
         view.addSubview(collectionView)
         collectionView.backgroundColor = .gray
         NSLayoutConstraint.activate([
@@ -68,7 +76,12 @@ private extension EmployeeListViewController {
             navigationBar.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             navigationBar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             
-            collectionView.topAnchor.constraint(equalTo: navigationBar.bottomAnchor),
+            searchBar.topAnchor.constraint(equalTo: navigationBar.bottomAnchor),
+            searchBar.bottomAnchor.constraint(equalTo: collectionView.topAnchor),
+            searchBar.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            searchBar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            
+//            collectionView.topAnchor.constraint(equalTo: navigationBar.bottomAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
