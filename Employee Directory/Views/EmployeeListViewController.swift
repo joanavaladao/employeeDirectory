@@ -22,22 +22,15 @@ class EmployeeListViewController: UIViewController {
         collection.register(EmployeeListCell.self, forCellWithReuseIdentifier: "cell")
         collection.delegate = self
         collection.dataSource = self
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        collection.addGestureRecognizer(tapGesture)
         return collection
-    }()
-    
-    lazy var navigationBar: UINavigationBar = {
-        let bar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 44))
-        let item = UINavigationItem(title: "Employee Directory")
-        item.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: nil, action: #selector(refreshEmployeeList))
-        item.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "settings"), style: .plain, target: nil, action: #selector(sortBy))
-        bar.setItems([item], animated: true)
-        bar.translatesAutoresizingMaskIntoConstraints = false
-        return bar
     }()
     
     lazy var searchBar: UISearchBar = {
         let bar = UISearchBar(frame: .zero)
         bar.barStyle = .default
+        bar.delegate = self
         bar.translatesAutoresizingMaskIntoConstraints = false
         return bar
     }()
@@ -59,29 +52,37 @@ class EmployeeListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupBars()
         setupView()
         viewModel.loadInitialInformation()
     }
 }
 
 private extension EmployeeListViewController {
+    func setupBars() {
+        navigationItem.title = "Employee Directory"
+        
+        let refreshButton = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(refreshEmployeeList))
+        let sortButton = UIBarButtonItem(image: UIImage(named: "settings"), style: .plain, target: self, action: #selector(sortBy))
+        let reportButton = UIBarButtonItem(image: UIImage(named: "report"), style: .plain, target: self, action: #selector(sortBy))
+        let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        setToolbarItems([refreshButton, spacer, reportButton, spacer, sortButton], animated: true)
+        navigationController?.setToolbarHidden(false, animated: true)
+    }
+    
     func setupView() {
         view.backgroundColor = .white
-        view.addSubview(navigationBar)
         view.addSubview(searchBar)
         view.addSubview(collectionView)
+        
+        navigationController?.setToolbarHidden(false, animated: true)
         collectionView.backgroundColor = .gray
         NSLayoutConstraint.activate([
-            navigationBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            navigationBar.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            navigationBar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            
-            searchBar.topAnchor.constraint(equalTo: navigationBar.bottomAnchor),
+            searchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             searchBar.bottomAnchor.constraint(equalTo: collectionView.topAnchor),
             searchBar.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             searchBar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             
-//            collectionView.topAnchor.constraint(equalTo: navigationBar.bottomAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
@@ -126,5 +127,18 @@ extension EmployeeListViewController: UICollectionViewDelegate, UICollectionView
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
     }
+}
+
+extension EmployeeListViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
     
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        viewModel.filter(by: searchText)
+    }
+    
+    @objc func dismissKeyboard() {
+        searchBar.endEditing(true)
+    }
 }

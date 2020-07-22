@@ -9,31 +9,34 @@
 import UIKit
 import CoreData
 
-enum SortBy {
-    case name
-    case team
+enum SortBy: String {
+    case name = "name"
+    case team = "team"
 }
 
 class EmployeeListViewModel {
     
-    private var employeeList: [Employee] = []
+    private var fullEmployeeList: [Employee] = []
+    private var filteredEmployeeList: [Employee] = []
     private var downloadService: DownloadService?
+    private var defaults: UserDefaults
     private var dataChanged: () -> Void
     private var fileService: FileService
     
-    init(fileService: FileService = FileService(), dataChanged: @escaping () -> Void) {
+    init(fileService: FileService = FileService(), defaults: UserDefaults = UserDefaults.standard, dataChanged: @escaping () -> Void) {
         DispatchQueue.main.async {
             appDelegate = UIApplication.shared.delegate as? AppDelegate
             context = appDelegate?.persistentContainer.viewContext
         }
         self.dataChanged = dataChanged
         self.fileService = fileService
+        self.defaults = defaults
     }
     
     func loadInitialInformation() {
         loadSavedEmployees()
-        if (employeeList.count == 0) {
-            loadEmployees(from: EmployeeListURL.wrongList.rawValue)
+        if (fullEmployeeList.count == 0) {
+            loadEmployees(from: EmployeeListURL.emptyList.rawValue)
         }
     }
     
@@ -42,48 +45,73 @@ class EmployeeListViewModel {
     }
     
     func numberOfItems() -> Int {
-        return employeeList.count
+        return filteredEmployeeList.count
     }
     
     func getName(for index: IndexPath) -> String {
-        return employeeList[index.row].fullName
+        return filteredEmployeeList[index.row].fullName
     }
     
     func getTeam(for index: IndexPath) -> String {
-        return employeeList[index.row].team
+        return filteredEmployeeList[index.row].team
     }
     
     func getImage(for index: IndexPath) -> UIImage {
         let placeHolder: UIImage = UIImage(named: "person") ?? UIImage()
         
-        guard let filename = employeeList[index.row].photoSmallDisk else {
+        guard let filename = filteredEmployeeList[index.row].photoSmallDisk else {
             return placeHolder
         }
         let imageURL = fileService.smallImagesFolder.appendingPathComponent(filename)
         return UIImage(contentsOfFile: imageURL.path) ?? placeHolder
     }
     
-    func sortBy(_ type: SortBy) {
-        switch type {
-        case .name:
-            employeeList.sort { $0.fullName < $1.fullName}
-        case .team:
-            employeeList.sort { $0.team < $1.team}
+    func sortBy(_ type: SortBy? = nil) {
+        var sort: SortBy
+        if let type = type {
+            sort = type
+        } else {
+            sort = SortBy(rawValue: defaults.string(forKey: "sortBy") ?? "name") ?? .name
         }
+        
+        switch sort {
+        case .name:
+            defaults.set("name", forKey: "sortBy")
+            filteredEmployeeList.sort { $0.fullName < $1.fullName}
+        case .team:
+            defaults.set("team", forKey: "sortBy")
+            filteredEmployeeList.sort { $0.team < $1.team}
+        }
+        dataChanged()
+    }
+    
+    func filter(by searchText: String) {
+        filteredEmployeeList.removeAll()
+        guard !searchText.isEmpty else {
+            filteredEmployeeList = fullEmployeeList
+            sortBy()
+            dataChanged()
+            return
+        }
+        
+        filteredEmployeeList = fullEmployeeList.filter {
+            $0.fullName.uppercased().starts(with: searchText.uppercased()) || $0.team.uppercased().starts(with: searchText.uppercased())
+        }
+        sortBy()
         dataChanged()
     }
 }
 
 private extension EmployeeListViewModel {
     func downloadSmallImages() {
-        guard employeeList.count > 0,
+        guard fullEmployeeList.count > 0,
             let appDelegate = appDelegate else {
             return
         }
         
         let downloadService = self.downloadService ?? DownloadService(delegate: self)
         
-        for employee in employeeList {
+        for employee in fullEmployeeList {
             guard employee.shouldDownloadSmallImage() else { return }
             let diskPath: String = employee.photoSmallDisk ?? ""
             if !diskPath.isEmpty {
@@ -111,11 +139,14 @@ private extension EmployeeListViewModel {
             return
         }
         
-        employeeList.removeAll()
+        fullEmployeeList.removeAll()
+        filteredEmployeeList.removeAll()
         
         do {
-          employeeList = try context.fetch(Employee.fetchRequest())
-            print(employeeList)
+            fullEmployeeList = try context.fetch(Employee.fetchRequest())
+            filteredEmployeeList = fullEmployeeList
+            let sort = SortBy(rawValue: defaults.string(forKey: "sortBy") ?? "name") ?? .name
+            sortBy(sort)
         } catch let error as NSError {
           print("Could not fetch. \(error), \(error.userInfo)")
         }
