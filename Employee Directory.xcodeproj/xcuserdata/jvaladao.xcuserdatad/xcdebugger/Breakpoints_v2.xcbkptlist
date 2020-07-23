@@ -147,9 +147,9 @@
                   urlString = "file:///Users/jvaladao/Documents/MyStudy/EmployeeDirectory/Employee%20Directory/Views/EmployeeDetailViewController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "85"
-                  endingLineNumber = "85"
-                  offsetFromSymbolStart = "117">
+                  startingLineNumber = "87"
+                  endingLineNumber = "87"
+                  offsetFromSymbolStart = "138">
                </Location>
                <Location
                   uuid = "DDEADA97-A142-4912-9252-A7E0C1B835E5 - e863828a70833850"
@@ -162,9 +162,9 @@
                   urlString = "file:///Users/jvaladao/Documents/MyStudy/EmployeeDirectory/Employee%20Directory/Views/EmployeeDetailViewController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "85"
-                  endingLineNumber = "85"
-                  offsetFromSymbolStart = "204">
+                  startingLineNumber = "87"
+                  endingLineNumber = "87"
+                  offsetFromSymbolStart = "231">
                </Location>
                <Location
                   uuid = "DDEADA97-A142-4912-9252-A7E0C1B835E5 - e863828a70833850"
@@ -177,11 +177,27 @@
                   urlString = "file:///Users/jvaladao/Documents/MyStudy/EmployeeDirectory/Employee%20Directory/Views/EmployeeDetailViewController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "85"
-                  endingLineNumber = "85"
-                  offsetFromSymbolStart = "456">
+                  startingLineNumber = "87"
+                  endingLineNumber = "87"
+                  offsetFromSymbolStart = "862">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D380A1EC-11B2-4F98-8068-C00660AA7814"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Employee Directory/Views/EmployeeDetailViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "69"
+            endingLineNumber = "69"
+            landmarkName = "init(_:fileService:downloadService:dataChanged:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

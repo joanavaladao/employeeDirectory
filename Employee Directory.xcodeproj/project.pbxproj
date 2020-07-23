@@ -23,6 +23,7 @@
 		5878DE2924C3FC97007E1FC8 /* FileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5878DE2824C3FC97007E1FC8 /* FileService.swift */; };
 		5878DE2C24C4B18E007E1FC8 /* Employee+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5878DE2B24C4B18E007E1FC8 /* Employee+CoreDataProperties.swift */; };
 		5878DE2E24C4D693007E1FC8 /* Employee+Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5878DE2D24C4D693007E1FC8 /* Employee+Functions.swift */; };
+		58FB850824CA481000A9BC71 /* EmployeeDetailViewModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58FB850724CA481000A9BC71 /* EmployeeDetailViewModelTest.swift */; };
 		58FDA1E224C5166A004C8562 /* EmployeeListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58FDA1E124C5166A004C8562 /* EmployeeListViewModel.swift */; };
 /* End PBXBuildFile section */
 
@@ -57,6 +58,7 @@
 		5878DE2824C3FC97007E1FC8 /* FileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileService.swift; sourceTree = "<group>"; };
 		5878DE2B24C4B18E007E1FC8 /* Employee+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Employee+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		5878DE2D24C4D693007E1FC8 /* Employee+Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Employee+Functions.swift"; sourceTree = "<group>"; };
+		58FB850724CA481000A9BC71 /* EmployeeDetailViewModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeDetailViewModelTest.swift; sourceTree = "<group>"; };
 		58FDA1E124C5166A004C8562 /* EmployeeListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeListViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -115,6 +117,7 @@
 			children = (
 				5878DE1A24C31F7C007E1FC8 /* Employee_DirectoryTests.swift */,
 				5878DE1C24C31F7C007E1FC8 /* Info.plist */,
+				58FB850724CA481000A9BC71 /* EmployeeDetailViewModelTest.swift */,
 			);
 			path = "Employee DirectoryTests";
 			sourceTree = "<group>";
@@ -290,6 +293,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				58FB850824CA481000A9BC71 /* EmployeeDetailViewModelTest.swift in Sources */,
 				5878DE1B24C31F7C007E1FC8 /* Employee_DirectoryTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

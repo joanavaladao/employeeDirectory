@@ -32,7 +32,7 @@ enum EmployeeType: String {
 }
 
 extension Employee {
-    convenience init (_ employeeJSON: EmployeeJSON, context: NSManagedObjectContext) {        
+    convenience init (_ employeeJSON: EmployeeJSON, context: NSManagedObjectContext) {
         self.init(entity: Employee.entity(), insertInto: context)
         self.uuid = employeeJSON.uuid
         self.fullName = employeeJSON.full_name
