@@ -36,11 +36,6 @@ class EmployeeDetailCell: UITableViewCell {
         stack.distribution = .fillProportionally
         stack.spacing = 32.0
         stack.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            infoLabel.centerYAnchor.constraint(equalTo: stack.centerYAnchor)
-        ])
-        
         return stack
     }()
     
@@ -61,6 +56,8 @@ private extension EmployeeDetailCell {
         NSLayoutConstraint.activate([
             iconImage.heightAnchor.constraint(equalToConstant: 50.0),
             iconImage.widthAnchor.constraint(equalToConstant: 50.0),
+            
+            infoLabel.centerYAnchor.constraint(equalTo: stackView.centerYAnchor),
             
             stackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 32.0),
             stackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: 32.0),

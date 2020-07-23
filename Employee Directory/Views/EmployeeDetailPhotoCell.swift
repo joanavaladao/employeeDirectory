@@ -13,8 +13,8 @@ class EmployeeDetailPhotoCell: UITableViewCell {
     lazy var photoImage: UIImageView = {
         let view = UIImageView(frame: .zero)
         view.image = UIImage(named: "person")
-        view.contentMode = .scaleAspectFill
-        view.clipsToBounds = true
+        view.contentMode = .scaleAspectFit
+//        view.clipsToBounds = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -34,8 +34,8 @@ private extension EmployeeDetailPhotoCell {
         addSubview(photoImage)
         
         NSLayoutConstraint.activate([
-            photoImage.heightAnchor.constraint(equalToConstant: 250.0),
-            photoImage.widthAnchor.constraint(equalToConstant: 250.0),
+            photoImage.heightAnchor.constraint(equalToConstant: 150.0),
+            photoImage.widthAnchor.constraint(equalToConstant: 150.0),
             
             photoImage.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 32.0),
             photoImage.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: 32.0),
