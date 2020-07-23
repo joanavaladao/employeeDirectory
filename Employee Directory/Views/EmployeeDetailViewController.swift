@@ -26,7 +26,11 @@ class EmployeeDetailViewController: UIViewController {
     
     required init(employee: Employee) {
         super.init(nibName: nil, bundle: nil)
-        viewModel = EmployeeDetailViewModel(employee)
+        viewModel = EmployeeDetailViewModel(employee) { [unowned self] in
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -45,7 +49,7 @@ private extension EmployeeDetailViewController {
         view.addSubview(tableView)
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16.0),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 16.0),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16.0),
             tableView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
             tableView.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor, multiplier: 0.8)
         ])
@@ -63,6 +67,7 @@ extension EmployeeDetailViewController: UITableViewDelegate, UITableViewDataSour
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "photoCell", for: indexPath) as? EmployeeDetailPhotoCell else {
                 return UITableViewCell(frame: .zero)
             }
+            cell.photoImage.image = viewModel.getImage()
             return cell
         } else if indexPath.row == 1 {
             return UITableViewCell(frame: .zero)
@@ -72,15 +77,19 @@ extension EmployeeDetailViewController: UITableViewDelegate, UITableViewDataSour
             }
             cell.iconImage.image = viewModel.getIcon(for: indexPath)
             cell.infoLabel.text = viewModel.getInformation(for: indexPath)
+            cell.infoLabel.textColor = viewModel.getColor(for: indexPath)
+            cell.infoLabel.font = viewModel.getFont(for: indexPath)
             return cell
         }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.row {
-        case 0: return 200
+        case 0:
+            let size = max(tableView.frame.height, tableView.frame.width)
+            return size * 0.4
         case 1: return 20
-        default: return 55
+        default: return 60
         }
     }
 }

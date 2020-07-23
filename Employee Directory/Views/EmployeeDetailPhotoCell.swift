@@ -14,7 +14,6 @@ class EmployeeDetailPhotoCell: UITableViewCell {
         let view = UIImageView(frame: .zero)
         view.image = UIImage(named: "person")
         view.contentMode = .scaleAspectFit
-//        view.clipsToBounds = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -34,13 +33,10 @@ private extension EmployeeDetailPhotoCell {
         addSubview(photoImage)
         
         NSLayoutConstraint.activate([
-            photoImage.heightAnchor.constraint(equalToConstant: 150.0),
-            photoImage.widthAnchor.constraint(equalToConstant: 150.0),
-            
-            photoImage.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 32.0),
-            photoImage.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: 32.0),
-            photoImage.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 4.0),
-            photoImage.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: 4.0)
+            photoImage.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            photoImage.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+            photoImage.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
+            photoImage.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor)
         ])
     }
 }

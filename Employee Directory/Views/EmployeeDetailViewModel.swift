@@ -40,17 +40,33 @@ enum InformationType: Int {
         case .biography: return employee.biography
         }
     }
+    
+    func font() -> UIFont {
+        switch self {
+        case .name: return UIFont.boldSystemFont(ofSize: 18.0)
+        default: return UIFont.systemFont(ofSize: 16.0)
+        }
+    }
+        
+    func fontColor() -> UIColor {
+        switch self {
+        case .name: return .black
+        default: return .darkGray
+        }
+    }
 }
 
 class EmployeeDetailViewModel {
-    var employee: Employee
-    var fileService: FileService
-    var downloadService: DownloadService?
+    private var employee: Employee
+    private var fileService: FileService
+    private var downloadService: DownloadService?
+    private var dataChanged: () -> Void
     
-    init(_ employee: Employee, fileService: FileService = FileService(), downloadService: DownloadService?) {
+    init(_ employee: Employee, fileService: FileService = FileService(), downloadService: DownloadService? = nil, dataChanged: @escaping () -> Void) {
         self.employee = employee
         self.fileService = fileService
         self.downloadService = downloadService
+        self.dataChanged = dataChanged
     }
     
     func numberOfRows() -> Int {
@@ -59,20 +75,21 @@ class EmployeeDetailViewModel {
     
     func getImage() -> UIImage {
         let placeHolder: UIImage = UIImage(named: "person") ?? UIImage()
-        
-        guard let filename = employee.photoLargeDisk else {
-            
-            return
-        }
-        
-        if employee.photoLargeURL == employee.photoLargeNewURL || employee.photoLargeNewURL == nil {
-        let imageURL = fileService.smallImagesFolder.appendingPathComponent(filename)
-        if fileService.checkIfFileExists(path: imageURL.path),
-            let image = UIImage(contentsOfFile: imageURL.path) {
-            return image
+        if employee.shouldDownloadLargeImage() {
+            downloadImage()
+            if let filename = employee.photoSmallDisk,
+                !filename.isEmpty {
+                let imageURL = fileService.smallImagesFolder.appendingPathComponent(filename)
+                return UIImage(contentsOfFile: imageURL.path) ?? placeHolder
+            }
         } else {
-            
+            if let filename = employee.photoLargeDisk,
+                !filename.isEmpty {
+                let imageURL = fileService.largeImagesFolder.appendingPathComponent(filename)
+                return UIImage(contentsOfFile: imageURL.path) ?? placeHolder
+            }
         }
+        
         return placeHolder
     }
     
@@ -89,45 +106,58 @@ class EmployeeDetailViewModel {
         }
         return type.information(employee: employee)
     }
+    
+    func getFont(for index: IndexPath) -> UIFont {
+        guard let type = InformationType(rawValue: index.row) else {
+            return UIFont.systemFont(ofSize: 15.0)
+        }
+        return type.font()
+    }
+    
+    func getColor(for index: IndexPath) -> UIColor {
+        guard let type = InformationType(rawValue: index.row) else {
+            return .black
+        }
+        return type.fontColor()
+    }
 }
 
 private extension EmployeeDetailViewModel {
+
     func downloadImage() {
         
         let downloadService = self.downloadService ?? DownloadService(delegate: self)
         
-            let diskPath: String = employee.photoSmallDisk ?? ""
+            let diskPath: String = employee.photoLargeDisk ?? ""
             if !diskPath.isEmpty {
                 fileService.removeFile(at: diskPath)
-                employee.photoSmallDisk = nil
+                employee.photoLargeDisk = nil
             }
-            employee.photoSmallURL = employee.photoSmallNewURL
-            
-            
-            guard let newDiskPath = employee.photoSmallURL else {
+            employee.photoLargeURL = employee.photoLargeNewURL
+
+            guard let newDiskPath = employee.photoLargeURL else {
                 // TODO: erro?
                 return
             }
             let filename = "\(employee.uuid)-\(URL(fileURLWithPath: newDiskPath).lastPathComponent)"
-            employee.photoSmallDisk = filename
-            appDelegate.saveContext()
+            employee.photoLargeDisk = filename
+            appDelegate?.saveContext()
             
-            downloadService.startDownload(of: .smallImage, from: newDiskPath, filename: filename)
+            downloadService.startDownload(of: .largeImage, from: newDiskPath, filename: filename)
         }
-    }
 }
 
 extension EmployeeDetailViewModel: DownloadDelegate {
     func savedTemporaryFile(at url: URL, downloadType: DownloadType) {
-        <#code#>
+        dataChanged()
     }
     
     func errorDownloadingFile(_ error: Error, downloadType: DownloadType) {
-        <#code#>
+        
     }
     
     func errorSavingFile(_ error: Error, downloadType: DownloadType) {
-        <#code#>
+        
     }
     
     

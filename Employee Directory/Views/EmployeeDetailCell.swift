@@ -13,8 +13,7 @@ class EmployeeDetailCell: UITableViewCell {
     lazy var iconImage: UIImageView = {
         let view = UIImageView(frame: .zero)
         view.image = UIImage(named: "person")
-        view.contentMode = .scaleAspectFill
-        view.clipsToBounds = true
+        view.contentMode = .scaleAspectFit
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -54,15 +53,14 @@ private extension EmployeeDetailCell {
         addSubview(stackView)
         
         NSLayoutConstraint.activate([
-            iconImage.heightAnchor.constraint(equalToConstant: 50.0),
-            iconImage.widthAnchor.constraint(equalToConstant: 50.0),
+            iconImage.centerYAnchor.constraint(equalTo: stackView.centerYAnchor),
             
             infoLabel.centerYAnchor.constraint(equalTo: stackView.centerYAnchor),
             
-            stackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 32.0),
-            stackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: 32.0),
-            stackView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 4.0),
-            stackView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: 4.0)
+            stackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            stackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+            stackView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor)
         ])
     }
 }
