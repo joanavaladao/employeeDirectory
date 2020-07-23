@@ -76,9 +76,9 @@ class FileService {
         }
     }
     
-    func saveList(file: URL,
-                  appDelegate: AppDelegate? = appDelegate,
-                  context: NSManagedObjectContext? = context) {
+    func persistEmployeeList(file: URL,
+                             appDelegate: AppDelegate? = appDelegate,
+                             context: NSManagedObjectContext? = context) {
         guard let appDelegate = appDelegate,
             let context = context else {
                 //TODO error
@@ -93,8 +93,10 @@ class FileService {
             for employeeJSON in employeesListJSON.employees {
                 _ = Employee(employeeJSON, context: context)
             }
-            context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
-            appDelegate.saveContext()
+            if employeesListJSON.employees.count > 0 {
+                context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+                appDelegate.saveContext()
+            }
         } catch let error {
             // TODO Manage error
             print(error)

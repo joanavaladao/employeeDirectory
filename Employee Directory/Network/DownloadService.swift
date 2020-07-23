@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum EmployeeList: String {
+enum EmployeeListURL: String {
     case fullList = "https://s3.amazonaws.com/sq-mobile-interview/employees.json"
     case wrongList = "https://s3.amazonaws.com/sq-mobile-interview/employees_malformed.json"
     case emptyList = "https://s3.amazonaws.com/sq-mobile-interview/employees_empty.json"
@@ -43,7 +43,7 @@ class DownloadService: NSObject {
         self.fileService.createDirectories()
     }
     
-    func startDownload (of type: DownloadType, from path: String, to destinyPath: String?) {
+    func startDownload (of type: DownloadType, from path: String, filename: String? = nil) {
         guard let requestURL: URL = URL(string: path) else {
             // TODO: throw an error
             return
@@ -66,17 +66,19 @@ class DownloadService: NSObject {
                 let status = self.fileService.saveTemporaryFile(from: url, filename: filename)
                 switch status {
                 case .success(let url):
-                    self.fileService.saveList(file: url)
+                    self.fileService.persistEmployeeList(file: url)
                     self.delegate.savedTemporaryFile(at: url, downloadType: .list)
                 case .failure(let error):
                     self.delegate.errorSavingFile(error, downloadType: self.downloadType)
                 }
             default:
-                guard let destinyPath = destinyPath else {
-                    // TODO
+                guard let filename = filename else {
                     return
                 }
-                let status = self.fileService.saveFile(from: url, to: destinyPath)
+                let destinyURL: URL = self.downloadType == .largeImage ? self.fileService.largeImagesFolder : self.fileService.smallImagesFolder
+                let imageURL = destinyURL.appendingPathComponent(filename)
+                
+                let status = self.fileService.saveFile(from: url, to: imageURL.path)
                 switch status {
                 case .success(_):
                     self.delegate.savedTemporaryFile(at: url, downloadType: self.downloadType)
