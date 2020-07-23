@@ -93,8 +93,10 @@ class FileService {
             for employeeJSON in employeesListJSON.employees {
                 _ = Employee(employeeJSON, context: context)
             }
-            context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
-            appDelegate.saveContext()
+            if employeesListJSON.employees.count > 0 {
+                context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+                appDelegate.saveContext()
+            }
         } catch let error {
             // TODO Manage error
             print(error)

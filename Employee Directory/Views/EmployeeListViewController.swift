@@ -22,8 +22,6 @@ class EmployeeListViewController: UIViewController {
         collection.register(EmployeeListCell.self, forCellWithReuseIdentifier: "cell")
         collection.delegate = self
         collection.dataSource = self
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        collection.addGestureRecognizer(tapGesture)
         return collection
     }()
     
@@ -31,6 +29,7 @@ class EmployeeListViewController: UIViewController {
         let bar = UISearchBar(frame: .zero)
         bar.barStyle = .default
         bar.delegate = self
+        bar.showsCancelButton = true
         bar.translatesAutoresizingMaskIntoConstraints = false
         return bar
     }()
@@ -127,6 +126,12 @@ extension EmployeeListViewController: UICollectionViewDelegate, UICollectionView
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        searchBar.resignFirstResponder()
+        let viewController = EmployeeDetailViewController(employee: viewModel.getEmployee(for: indexPath))
+        navigationController?.pushViewController(viewController, animated: true)
+    }
 }
 
 extension EmployeeListViewController: UISearchBarDelegate {
@@ -137,8 +142,8 @@ extension EmployeeListViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         viewModel.filter(by: searchText)
     }
-    
-    @objc func dismissKeyboard() {
-        searchBar.endEditing(true)
+
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
     }
 }

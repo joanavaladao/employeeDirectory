@@ -100,6 +100,10 @@ class EmployeeListViewModel {
         sortBy()
         dataChanged()
     }
+    
+    func getEmployee(for index: IndexPath) -> Employee {
+        return filteredEmployeeList[index.row]
+    }
 }
 
 private extension EmployeeListViewModel {
