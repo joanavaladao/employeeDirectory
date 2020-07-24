@@ -23,6 +23,11 @@
 		5878DE2924C3FC97007E1FC8 /* FileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5878DE2824C3FC97007E1FC8 /* FileService.swift */; };
 		5878DE2C24C4B18E007E1FC8 /* Employee+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5878DE2B24C4B18E007E1FC8 /* Employee+CoreDataProperties.swift */; };
 		5878DE2E24C4D693007E1FC8 /* Employee+Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5878DE2D24C4D693007E1FC8 /* Employee+Functions.swift */; };
+		58F7540524CA8E9B001C5DA6 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58F7540124CA8E23001C5DA6 /* Charts.framework */; };
+		58F7540624CA8E9B001C5DA6 /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 58F7540124CA8E23001C5DA6 /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		58F7540924CA8EE0001C5DA6 /* ReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F7540824CA8EE0001C5DA6 /* ReportViewController.swift */; };
+		58F7540B24CA9334001C5DA6 /* ReportViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F7540A24CA9334001C5DA6 /* ReportViewCell.swift */; };
+		58F7540D24CA93F7001C5DA6 /* ReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F7540C24CA93F7001C5DA6 /* ReportViewModel.swift */; };
 		58FB850824CA481000A9BC71 /* EmployeeDetailViewModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58FB850724CA481000A9BC71 /* EmployeeDetailViewModelTest.swift */; };
 		58FDA1E224C5166A004C8562 /* EmployeeListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58FDA1E124C5166A004C8562 /* EmployeeListViewModel.swift */; };
 /* End PBXBuildFile section */
@@ -35,7 +40,35 @@
 			remoteGlobalIDString = 5878DDFC24C31F79007E1FC8;
 			remoteInfo = "Employee Directory";
 		};
+		58F7540024CA8E23001C5DA6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 58F753FB24CA8E23001C5DA6 /* Charts.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 65AD9E95D9ED4DC0BD73A743;
+			remoteInfo = Charts;
+		};
+		58F7540224CA8E23001C5DA6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 58F753FB24CA8E23001C5DA6 /* Charts.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1CBBC58C6CE1EBEE9852CE41;
+			remoteInfo = ChartsTests;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		58F7540724CA8E9B001C5DA6 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				58F7540624CA8E9B001C5DA6 /* Charts.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		5818DE9924C53AB200FE5F10 /* EmployeeListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeListCell.swift; sourceTree = "<group>"; };
@@ -58,6 +91,10 @@
 		5878DE2824C3FC97007E1FC8 /* FileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileService.swift; sourceTree = "<group>"; };
 		5878DE2B24C4B18E007E1FC8 /* Employee+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Employee+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		5878DE2D24C4D693007E1FC8 /* Employee+Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Employee+Functions.swift"; sourceTree = "<group>"; };
+		58F753FB24CA8E23001C5DA6 /* Charts.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Charts.xcodeproj; path = "Charts-master/Charts.xcodeproj"; sourceTree = "<group>"; };
+		58F7540824CA8EE0001C5DA6 /* ReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewController.swift; sourceTree = "<group>"; };
+		58F7540A24CA9334001C5DA6 /* ReportViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewCell.swift; sourceTree = "<group>"; };
+		58F7540C24CA93F7001C5DA6 /* ReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewModel.swift; sourceTree = "<group>"; };
 		58FB850724CA481000A9BC71 /* EmployeeDetailViewModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeDetailViewModelTest.swift; sourceTree = "<group>"; };
 		58FDA1E124C5166A004C8562 /* EmployeeListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeListViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -67,6 +104,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				58F7540524CA8E9B001C5DA6 /* Charts.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,6 +124,8 @@
 				5878DDFF24C31F79007E1FC8 /* Employee Directory */,
 				5878DE1924C31F7C007E1FC8 /* Employee DirectoryTests */,
 				5878DDFE24C31F79007E1FC8 /* Products */,
+				58F753FB24CA8E23001C5DA6 /* Charts.xcodeproj */,
+				58F7540424CA8E9B001C5DA6 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -140,6 +180,22 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		58F753FC24CA8E23001C5DA6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				58F7540124CA8E23001C5DA6 /* Charts.framework */,
+				58F7540324CA8E23001C5DA6 /* ChartsTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		58F7540424CA8E9B001C5DA6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		58FDA1DE24C515E2004C8562 /* App Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -168,6 +224,9 @@
 				5818DEAE24C93E5800FE5F10 /* EmployeeDetailPhotoCell.swift */,
 				5818DEB124C93E6900FE5F10 /* EmployeeDetailViewController.swift */,
 				5818DEB024C93E6900FE5F10 /* EmployeeDetailViewModel.swift */,
+				58F7540824CA8EE0001C5DA6 /* ReportViewController.swift */,
+				58F7540A24CA9334001C5DA6 /* ReportViewCell.swift */,
+				58F7540C24CA93F7001C5DA6 /* ReportViewModel.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -182,6 +241,7 @@
 				5878DDF924C31F79007E1FC8 /* Sources */,
 				5878DDFA24C31F79007E1FC8 /* Frameworks */,
 				5878DDFB24C31F79007E1FC8 /* Resources */,
+				58F7540724CA8E9B001C5DA6 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -240,6 +300,12 @@
 			mainGroup = 5878DDF424C31F79007E1FC8;
 			productRefGroup = 5878DDFE24C31F79007E1FC8 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 58F753FC24CA8E23001C5DA6 /* Products */;
+					ProjectRef = 58F753FB24CA8E23001C5DA6 /* Charts.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				5878DDFC24C31F79007E1FC8 /* Employee Directory */,
@@ -247,6 +313,23 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		58F7540124CA8E23001C5DA6 /* Charts.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Charts.framework;
+			remoteRef = 58F7540024CA8E23001C5DA6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		58F7540324CA8E23001C5DA6 /* ChartsTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = ChartsTests.xctest;
+			remoteRef = 58F7540224CA8E23001C5DA6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		5878DDFB24C31F79007E1FC8 /* Resources */ = {
@@ -278,8 +361,11 @@
 				5818DEB224C93E6900FE5F10 /* EmployeeDetailViewModel.swift in Sources */,
 				5878DE2724C32527007E1FC8 /* DownloadService.swift in Sources */,
 				5818DEB324C93E6900FE5F10 /* EmployeeDetailViewController.swift in Sources */,
+				58F7540B24CA9334001C5DA6 /* ReportViewCell.swift in Sources */,
 				5878DE2C24C4B18E007E1FC8 /* Employee+CoreDataProperties.swift in Sources */,
+				58F7540D24CA93F7001C5DA6 /* ReportViewModel.swift in Sources */,
 				5878DE0324C31F79007E1FC8 /* SceneDelegate.swift in Sources */,
+				58F7540924CA8EE0001C5DA6 /* ReportViewController.swift in Sources */,
 				5878DE0B24C31F79007E1FC8 /* Employee_Directory.xcdatamodeld in Sources */,
 				5878DE2924C3FC97007E1FC8 /* FileService.swift in Sources */,
 				58FDA1E224C5166A004C8562 /* EmployeeListViewModel.swift in Sources */,
