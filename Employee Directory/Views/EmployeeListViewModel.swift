@@ -126,7 +126,6 @@ private extension EmployeeListViewModel {
             
             
             guard let newDiskPath = employee.photoSmallURL else {
-                // TODO: erro?
                 return
             }
             let filename = "\(employee.uuid)-\(URL(fileURLWithPath: newDiskPath).lastPathComponent)"

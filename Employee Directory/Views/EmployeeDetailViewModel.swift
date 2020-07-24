@@ -136,7 +136,6 @@ private extension EmployeeDetailViewModel {
             employee.photoLargeURL = employee.photoLargeNewURL
 
             guard let newDiskPath = employee.photoLargeURL else {
-                // TODO: erro?
                 return
             }
             let filename = "\(employee.uuid)-\(URL(fileURLWithPath: newDiskPath).lastPathComponent)"

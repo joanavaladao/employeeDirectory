@@ -55,13 +55,6 @@ class FileService {
     func saveTemporaryFile(from path: URL, filename: String) -> Result<URL, Error> {
         let destinationURL: URL = temporaryFolder.appendingPathComponent(filename)
         return saveFile(from: path, to: destinationURL.path)
-//        do {
-//            try? fileManager.removeItem(at: destinationURL)
-//            try fileManager.copyItem(at: path, to: destinationURL)
-//            return .success(destinationURL)
-//        } catch let error {
-//            return .failure(error)
-//        }
     }
     
     func saveFile(from path: URL, to destinyPath: String) -> Result<URL, Error> {
@@ -81,7 +74,6 @@ class FileService {
                              context: NSManagedObjectContext? = context) {
         guard let appDelegate = appDelegate,
             let context = context else {
-                //TODO error
                 return
         }
         
@@ -98,7 +90,6 @@ class FileService {
                 appDelegate.saveContext()
             }
         } catch let error {
-            // TODO Manage error
             print(error)
         }
     }
