@@ -63,7 +63,7 @@ private extension EmployeeListViewController {
         
         let refreshButton = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(refreshEmployeeList))
         let sortButton = UIBarButtonItem(image: UIImage(named: "settings"), style: .plain, target: self, action: #selector(sortBy))
-        let reportButton = UIBarButtonItem(image: UIImage(named: "report"), style: .plain, target: self, action: #selector(sortBy))
+        let reportButton = UIBarButtonItem(image: UIImage(named: "report"), style: .plain, target: self, action: #selector(goToReport))
         let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         setToolbarItems([refreshButton, spacer, reportButton, spacer, sortButton], animated: true)
         navigationController?.setToolbarHidden(false, animated: true)
@@ -101,6 +101,11 @@ private extension EmployeeListViewController {
             self.viewModel.sortBy(.team)
         })
         present(alert, animated: true)
+    }
+    
+    @objc func goToReport() {
+        let viewController = ReportViewController(reportsData: viewModel.reportData())
+        navigationController?.pushViewController(viewController, animated: true)
     }
 }
 

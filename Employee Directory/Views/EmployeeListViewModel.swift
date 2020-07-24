@@ -104,6 +104,31 @@ class EmployeeListViewModel {
     func getEmployee(for index: IndexPath) -> Employee {
         return filteredEmployeeList[index.row]
     }
+    
+    func reportData() -> [ChartData] {
+        guard fullEmployeeList.count > 0 else {
+            return []
+        }
+        
+        var fullTime = 0
+        var partTime = 0
+        var contract = 0
+        var unknown = 0
+        
+        for employee in fullEmployeeList {
+            if let type = EmployeeType(rawValue: employee.employeeType) {
+                switch type {
+                case .fullTime: fullTime += 1
+                case .partTime: partTime += 1
+                case .contractor: contract += 1
+                }
+            } else {
+                unknown += 1
+            }
+        }
+        
+        return [ChartData(title: "Employment Type", data: [Information(description: "Full Time", value: fullTime), Information(description: "Part Time", value: partTime), Information(description: "Contractor", value: contract), Information(description: "Unknown", value: unknown)])]
+    }
 }
 
 private extension EmployeeListViewModel {
