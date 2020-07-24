@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		5818DE9A24C53AB200FE5F10 /* EmployeeListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5818DE9924C53AB200FE5F10 /* EmployeeListCell.swift */; };
+		5818DEAD24C93E4700FE5F10 /* EmployeeDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5818DEAC24C93E4700FE5F10 /* EmployeeDetailCell.swift */; };
+		5818DEAF24C93E5900FE5F10 /* EmployeeDetailPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5818DEAE24C93E5800FE5F10 /* EmployeeDetailPhotoCell.swift */; };
+		5818DEB224C93E6900FE5F10 /* EmployeeDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5818DEB024C93E6900FE5F10 /* EmployeeDetailViewModel.swift */; };
+		5818DEB324C93E6900FE5F10 /* EmployeeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5818DEB124C93E6900FE5F10 /* EmployeeDetailViewController.swift */; };
 		5878DE0124C31F79007E1FC8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5878DE0024C31F79007E1FC8 /* AppDelegate.swift */; };
 		5878DE0324C31F79007E1FC8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5878DE0224C31F79007E1FC8 /* SceneDelegate.swift */; };
 		5878DE0524C31F79007E1FC8 /* EmployeeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5878DE0424C31F79007E1FC8 /* EmployeeListViewController.swift */; };
@@ -19,6 +23,7 @@
 		5878DE2924C3FC97007E1FC8 /* FileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5878DE2824C3FC97007E1FC8 /* FileService.swift */; };
 		5878DE2C24C4B18E007E1FC8 /* Employee+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5878DE2B24C4B18E007E1FC8 /* Employee+CoreDataProperties.swift */; };
 		5878DE2E24C4D693007E1FC8 /* Employee+Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5878DE2D24C4D693007E1FC8 /* Employee+Functions.swift */; };
+		58FB850824CA481000A9BC71 /* EmployeeDetailViewModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58FB850724CA481000A9BC71 /* EmployeeDetailViewModelTest.swift */; };
 		58FDA1E224C5166A004C8562 /* EmployeeListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58FDA1E124C5166A004C8562 /* EmployeeListViewModel.swift */; };
 /* End PBXBuildFile section */
 
@@ -34,6 +39,10 @@
 
 /* Begin PBXFileReference section */
 		5818DE9924C53AB200FE5F10 /* EmployeeListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeListCell.swift; sourceTree = "<group>"; };
+		5818DEAC24C93E4700FE5F10 /* EmployeeDetailCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmployeeDetailCell.swift; sourceTree = "<group>"; };
+		5818DEAE24C93E5800FE5F10 /* EmployeeDetailPhotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmployeeDetailPhotoCell.swift; sourceTree = "<group>"; };
+		5818DEB024C93E6900FE5F10 /* EmployeeDetailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmployeeDetailViewModel.swift; sourceTree = "<group>"; };
+		5818DEB124C93E6900FE5F10 /* EmployeeDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmployeeDetailViewController.swift; sourceTree = "<group>"; };
 		5878DDFD24C31F79007E1FC8 /* Employee Directory.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Employee Directory.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5878DE0024C31F79007E1FC8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5878DE0224C31F79007E1FC8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -49,6 +58,7 @@
 		5878DE2824C3FC97007E1FC8 /* FileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileService.swift; sourceTree = "<group>"; };
 		5878DE2B24C4B18E007E1FC8 /* Employee+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Employee+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		5878DE2D24C4D693007E1FC8 /* Employee+Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Employee+Functions.swift"; sourceTree = "<group>"; };
+		58FB850724CA481000A9BC71 /* EmployeeDetailViewModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeDetailViewModelTest.swift; sourceTree = "<group>"; };
 		58FDA1E124C5166A004C8562 /* EmployeeListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeListViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -107,6 +117,7 @@
 			children = (
 				5878DE1A24C31F7C007E1FC8 /* Employee_DirectoryTests.swift */,
 				5878DE1C24C31F7C007E1FC8 /* Info.plist */,
+				58FB850724CA481000A9BC71 /* EmployeeDetailViewModelTest.swift */,
 			);
 			path = "Employee DirectoryTests";
 			sourceTree = "<group>";
@@ -153,6 +164,10 @@
 				5878DE0424C31F79007E1FC8 /* EmployeeListViewController.swift */,
 				58FDA1E124C5166A004C8562 /* EmployeeListViewModel.swift */,
 				5818DE9924C53AB200FE5F10 /* EmployeeListCell.swift */,
+				5818DEAC24C93E4700FE5F10 /* EmployeeDetailCell.swift */,
+				5818DEAE24C93E5800FE5F10 /* EmployeeDetailPhotoCell.swift */,
+				5818DEB124C93E6900FE5F10 /* EmployeeDetailViewController.swift */,
+				5818DEB024C93E6900FE5F10 /* EmployeeDetailViewModel.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -258,8 +273,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				5878DE0524C31F79007E1FC8 /* EmployeeListViewController.swift in Sources */,
+				5818DEAF24C93E5900FE5F10 /* EmployeeDetailPhotoCell.swift in Sources */,
 				5878DE0124C31F79007E1FC8 /* AppDelegate.swift in Sources */,
+				5818DEB224C93E6900FE5F10 /* EmployeeDetailViewModel.swift in Sources */,
 				5878DE2724C32527007E1FC8 /* DownloadService.swift in Sources */,
+				5818DEB324C93E6900FE5F10 /* EmployeeDetailViewController.swift in Sources */,
 				5878DE2C24C4B18E007E1FC8 /* Employee+CoreDataProperties.swift in Sources */,
 				5878DE0324C31F79007E1FC8 /* SceneDelegate.swift in Sources */,
 				5878DE0B24C31F79007E1FC8 /* Employee_Directory.xcdatamodeld in Sources */,
@@ -267,6 +285,7 @@
 				58FDA1E224C5166A004C8562 /* EmployeeListViewModel.swift in Sources */,
 				5818DE9A24C53AB200FE5F10 /* EmployeeListCell.swift in Sources */,
 				5878DE2E24C4D693007E1FC8 /* Employee+Functions.swift in Sources */,
+				5818DEAD24C93E4700FE5F10 /* EmployeeDetailCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -274,6 +293,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				58FB850824CA481000A9BC71 /* EmployeeDetailViewModelTest.swift in Sources */,
 				5878DE1B24C31F7C007E1FC8 /* Employee_DirectoryTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -418,6 +438,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = MQVDNK858M;
 				INFOPLIST_FILE = "Employee Directory/Info.plist";
@@ -427,6 +448,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "valadao.joana.Employee-Directory";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -436,6 +458,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = MQVDNK858M;
 				INFOPLIST_FILE = "Employee Directory/Info.plist";
@@ -445,6 +468,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "valadao.joana.Employee-Directory";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

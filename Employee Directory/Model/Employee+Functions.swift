@@ -32,7 +32,7 @@ enum EmployeeType: String {
 }
 
 extension Employee {
-    convenience init (_ employeeJSON: EmployeeJSON, context: NSManagedObjectContext) {        
+    convenience init (_ employeeJSON: EmployeeJSON, context: NSManagedObjectContext) {
         self.init(entity: Employee.entity(), insertInto: context)
         self.uuid = employeeJSON.uuid
         self.fullName = employeeJSON.full_name
@@ -46,11 +46,23 @@ extension Employee {
     }
     
     func shouldDownloadSmallImage(fileService: FileService = FileService()) -> Bool {
-        guard let path = photoSmallDisk else {
+        guard let filename = photoSmallDisk else {
             return true
         }
         
+        let url = fileService.smallImagesFolder.appendingPathComponent(filename)
+        
         // if the URL is the same and the file exists, don't download the image
-        return !(photoSmallURL == photoSmallNewURL && fileService.checkIfFileExists(path: path))
+        return !(photoSmallURL == photoSmallNewURL && fileService.checkIfFileExists(path: url.path))
+    }
+    
+    func shouldDownloadLargeImage(fileService: FileService = FileService()) -> Bool {
+        guard let filename = photoLargeDisk else {
+            return true
+        }
+        let url = fileService.largeImagesFolder.appendingPathComponent(filename)
+        
+        // if the URL is the same and the file exists, don't download the image
+        return !(photoLargeURL == photoLargeNewURL && fileService.checkIfFileExists(path: url.path))
     }
 }
