@@ -9,9 +9,8 @@
 import Foundation
 
 enum EmployeeListURL: String {
-    case fullList = "https://s3.amazonaws.com/sq-mobile-interview/employees.json"
-    case wrongList = "https://s3.amazonaws.com/sq-mobile-interview/employees_malformed.json"
-    case emptyList = "https://s3.amazonaws.com/sq-mobile-interview/employees_empty.json"
+    case fullList = "https://raw.githubusercontent.com/joanavaladao/employeeDirectory/master/files/employees.json"
+    case emptyList = "https://raw.githubusercontent.com/joanavaladao/employeeDirectory/master/files/emptylist.json"
     case timeout = "http://httpbin.org/delay/60000"
 }
 
