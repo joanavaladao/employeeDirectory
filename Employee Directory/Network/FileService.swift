@@ -81,11 +81,16 @@ class FileService {
 
         do {
             let employeesData = try Data(contentsOf: file)
-            let employeesListJSON = try decoder.decode(EmployeeJSONList.self, from: employeesData)
-            for employeeJSON in employeesListJSON.employees {
+            let employeesDict = try decoder.decode([String: [EmployeeJSON]].self, from: employeesData)
+            guard let employeesListJSON = employeesDict["employees"] else {
+                return
+            }
+            
+            for employeeJSON in employeesListJSON {
                 _ = Employee(employeeJSON, context: context)
             }
-            if employeesListJSON.employees.count > 0 {
+
+            if employeesListJSON.count > 0 {
                 context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
                 appDelegate.saveContext()
             }

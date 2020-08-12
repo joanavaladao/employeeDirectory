@@ -21,10 +21,6 @@ struct EmployeeJSON: Codable {
     var employee_type: String
 }
 
-struct EmployeeJSONList: Codable {
-    var employees: [EmployeeJSON]
-}
-
 enum EmployeeType: String {
     case fullTime = "FULL_TIME"
     case partTime = "PART_TIME"
