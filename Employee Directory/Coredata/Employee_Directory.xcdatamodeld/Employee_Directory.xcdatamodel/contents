@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19D76" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19G2021" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Employee" representedClassName=".Employee" syncable="YES">
         <attribute name="biography" optional="YES" attributeType="String"/>
         <attribute name="email" optional="YES" attributeType="String"/>
         <attribute name="employeeType" optional="YES" attributeType="String"/>
         <attribute name="fullName" optional="YES" attributeType="String"/>
         <attribute name="phoneNumber" optional="YES" attributeType="String"/>
-        <attribute name="photoLargeDisk" optional="YES" attributeType="String"/>
-        <attribute name="photoLargeNewURL" optional="YES" attributeType="String"/>
+        <attribute name="photoLarge" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
         <attribute name="photoLargeURL" optional="YES" attributeType="String"/>
-        <attribute name="photoSmallDisk" optional="YES" attributeType="String"/>
-        <attribute name="photoSmallNewURL" optional="YES" attributeType="String"/>
+        <attribute name="photoSmall" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
         <attribute name="photoSmallURL" optional="YES" attributeType="String"/>
         <attribute name="team" optional="YES" attributeType="String"/>
         <attribute name="uuid" attributeType="String"/>
@@ -21,6 +19,6 @@
         </uniquenessConstraints>
     </entity>
     <elements>
-        <element name="Employee" positionX="-63" positionY="-18" width="128" height="238"/>
+        <element name="Employee" positionX="-63" positionY="-18" width="128" height="208"/>
     </elements>
 </model>

@@ -7,10 +7,6 @@
 //
 
 import UIKit
-import CoreData
-
-var appDelegate: AppDelegate?
-var context: NSManagedObjectContext?
 
 class EmployeeListViewController: UIViewController {
 

@@ -9,11 +9,6 @@
 import UIKit
 import CoreData
 
-enum SortBy: String {
-    case name = "name"
-    case team = "team"
-}
-
 class EmployeeListViewModel {
     
     private var fullEmployeeList: [Employee] = []
@@ -24,10 +19,10 @@ class EmployeeListViewModel {
     private var fileService: FileService
     
     init(fileService: FileService = FileService(), defaults: UserDefaults = UserDefaults.standard, dataChanged: @escaping () -> Void) {
-        DispatchQueue.main.async {
-            appDelegate = UIApplication.shared.delegate as? AppDelegate
-            context = appDelegate?.persistentContainer.viewContext
-        }
+//        DispatchQueue.main.async {
+//            appDelegate = UIApplication.shared.delegate as? AppDelegate
+//            context = appDelegate?.persistentContainer.viewContext
+//        }
         self.dataChanged = dataChanged
         self.fileService = fileService
         self.defaults = defaults
