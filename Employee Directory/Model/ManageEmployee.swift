@@ -50,26 +50,33 @@ class ManageEmployee {
         refresh()
     }
     
-    func loadEmployees(from data: Data) {
+    func loadEmployees(from path: String) {
         let decoder = JSONDecoder()
 
         do {
+            let data = try Data(contentsOf: URL(fileURLWithPath: path))
             let employeesDict = try decoder.decode([String: [EmployeeJSON]].self, from: data)
-            //criar a funcao para ler o json e carregar os dados no coredata.
-            //criar uma private function para criar o employee como o convenience init abaixo.
-    }
-        
-        convenience init (_ employeeJSON: EmployeeJSON, context: NSManagedObjectContext) {
-            self.init(entity: Employee.entity(), insertInto: context)
-            self.uuid = employeeJSON.uuid
-            self.fullName = employeeJSON.full_name
-            self.phoneNumber = employeeJSON.phone_number
-            self.email = employeeJSON.email_address
-            self.biography = employeeJSON.biography
-            self.photoSmallURL = employeeJSON.photo_url_small
-            self.photoLargeURL = employeeJSON.photo_url_large
-            self.team = employeeJSON.team
-            self.employeeType = employeeJSON.employee_type.uppercased()
+            
+            guard let employees = employeesDict["employees"] else {
+                print("no employees")
+                return
+            }
+            
+            for employee in employees {
+                let newEmployee = Employee(entity: Employee.entity(), insertInto: context)
+                newEmployee.uuid = employee.uuid
+                newEmployee.fullName = employee.full_name
+                newEmployee.phoneNumber = employee.phone_number
+                newEmployee.email = employee.email_address
+                newEmployee.biography = employee.biography
+                newEmployee.photoSmallURL = employee.photo_url_small
+                newEmployee.photoLargeURL = employee.photo_url_large
+                newEmployee.team = employee.team
+                newEmployee.employeeType = employee.employee_type.uppercased()
+            }
+        } catch let error {
+            print("Error - \(error)")
+        }
     }
     
     func employee(at indexPath: IndexPath) -> Employee {

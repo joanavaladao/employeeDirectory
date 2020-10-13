@@ -17,8 +17,9 @@ class EmployeeListViewModel {
     private var defaults: UserDefaults
     private var dataChanged: () -> Void
     private var fileService: FileService
+    private var employees: ManageEmployee
     
-    init(fileService: FileService = FileService(), defaults: UserDefaults = UserDefaults.standard, dataChanged: @escaping () -> Void) {
+    init(fileService: FileService = FileService(), defaults: UserDefaults = UserDefaults.standard, employeeManager: ManageEmployee = ManageEmployee(), dataChanged: @escaping () -> Void) {
 //        DispatchQueue.main.async {
 //            appDelegate = UIApplication.shared.delegate as? AppDelegate
 //            context = appDelegate?.persistentContainer.viewContext
@@ -26,6 +27,7 @@ class EmployeeListViewModel {
         self.dataChanged = dataChanged
         self.fileService = fileService
         self.defaults = defaults
+        employees = employeeManager
     }
     
     func loadInitialInformation() {
@@ -158,21 +160,22 @@ private extension EmployeeListViewModel {
     
     // Read from coredata
     func loadSavedEmployees() {
-        guard let context = context else {
-            return
-        }
-        
-        fullEmployeeList.removeAll()
-        filteredEmployeeList.removeAll()
-        
-        do {
-            fullEmployeeList = try context.fetch(Employee.fetchRequest())
-            filteredEmployeeList = fullEmployeeList
-            let sort = SortBy(rawValue: defaults.string(forKey: "sortBy") ?? "name") ?? .name
-            sortBy(sort)
-        } catch let error as NSError {
-          print("Could not fetch. \(error), \(error.userInfo)")
-        }
+        employees.
+//        guard let context = context else {
+//            return
+//        }
+//
+//        fullEmployeeList.removeAll()
+//        filteredEmployeeList.removeAll()
+//
+//        do {
+//            fullEmployeeList = try context.fetch(Employee.fetchRequest())
+//            filteredEmployeeList = fullEmployeeList
+//            let sort = SortBy(rawValue: defaults.string(forKey: "sortBy") ?? "name") ?? .name
+//            sortBy(sort)
+//        } catch let error as NSError {
+//          print("Could not fetch. \(error), \(error.userInfo)")
+//        }
     }
     
     func loadEmployees(from path: String = EmployeeListURL.fullList.rawValue) {

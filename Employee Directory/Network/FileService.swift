@@ -18,14 +18,14 @@ class FileService {
     lazy var temporaryFolder: URL = {
         return rootFolder.appendingPathComponent("temp")
     }()
-    
-    lazy var largeImagesFolder: URL = {
-        return rootFolder.appendingPathComponent("largeImages")
-    }()
-    
-    lazy var smallImagesFolder: URL = {
-        return rootFolder.appendingPathComponent("smallImages")
-    }()
+//    
+//    lazy var largeImagesFolder: URL = {
+//        return rootFolder.appendingPathComponent("largeImages")
+//    }()
+//    
+//    lazy var smallImagesFolder: URL = {
+//        return rootFolder.appendingPathComponent("smallImages")
+//    }()
     
     var fileManager: FileManager
     
@@ -68,36 +68,37 @@ class FileService {
             return .failure(error)
         }
     }
-    
-    func persistEmployeeList(file: URL,
-                             appDelegate: AppDelegate? = appDelegate,
-                             context: NSManagedObjectContext? = context) {
-        guard let appDelegate = appDelegate,
-            let context = context else {
-                return
-        }
-        
-        let decoder = JSONDecoder()
+//
+//    func persistEmployeeList(file: URL,
+//                             appDelegate: AppDelegate? = appDelegate,
+//                             context: NSManagedObjectContext? = context) {
+//        guard let appDelegate = appDelegate,
+//            let context = context else {
+//                return
+//        }
+//
+//        let decoder = JSONDecoder()
+//
+//        do {
+//            let employeesData = try Data(contentsOf: file)
+//            let employeesDict = try decoder.decode([String: [EmployeeJSON]].self, from: employeesData)
+//            guard let employeesListJSON = employeesDict["employees"] else {
+//                return
+//            }
+//
+//            for employeeJSON in employeesListJSON {
+//                _ = Employee(employeeJSON, context: context)
+//            }
+//
+//            if employeesListJSON.count > 0 {
+//                context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+//                appDelegate.saveContext()
+//            }
+//        } catch let error {
+//            print(error)
+//        }
+//    }
 
-        do {
-            let employeesData = try Data(contentsOf: file)
-            let employeesDict = try decoder.decode([String: [EmployeeJSON]].self, from: employeesData)
-            guard let employeesListJSON = employeesDict["employees"] else {
-                return
-            }
-            
-            for employeeJSON in employeesListJSON {
-                _ = Employee(employeeJSON, context: context)
-            }
-
-            if employeesListJSON.count > 0 {
-                context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
-                appDelegate.saveContext()
-            }
-        } catch let error {
-            print(error)
-        }
-    }
     
     func checkIfFileExists(path: String) -> Bool {
         return fileManager.fileExists(atPath: path)
