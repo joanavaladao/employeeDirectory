@@ -74,6 +74,8 @@ class ManageEmployee {
                 newEmployee.team = employee.team
                 newEmployee.employeeType = employee.employee_type.uppercased()
             }
+            try context.save()
+            refresh()
         } catch let error {
             print("Error - \(error)")
         }

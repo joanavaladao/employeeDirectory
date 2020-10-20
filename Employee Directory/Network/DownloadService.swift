@@ -38,12 +38,11 @@ class DownloadService: NSObject {
         return URLSession(configuration: configuration)
     }()
     
-    var delegate: DownloadDelegate
+//    var delegate: DownloadDelegate
     var fileService: FileService
     var downloadType: DownloadType = .list
 
-    init(delegate: DownloadDelegate, fileService: FileService = FileService()) {
-        self.delegate = delegate
+    init(fileService: FileService = FileService()) {
         self.fileService = fileService
         self.fileService.createDirectories()
     }
@@ -55,6 +54,9 @@ class DownloadService: NSObject {
         }
 
         let task = session.downloadTask(with: requestURL) { url, response, error in
+            print("****** url: \(url)")
+            print("****** response: \(response)")
+            print("****** error: \(error)")
             guard error == nil else {
                 handler(.failure(.unknown(code: 0, message: error?.localizedDescription)))
                 return
@@ -67,7 +69,13 @@ class DownloadService: NSObject {
             
             let filename: String = requestURL.lastPathComponent
             let status = self.fileService.saveTemporaryFile(from: url, filename: filename)
-            handler(.success(url.path))
+            switch status {
+            case .success(let newURL):
+                handler(.success(newURL.path))
+            case .failure(let error):
+                handler(.failure(.unknown(code: 0, message: error.localizedDescription)))
+            }
+            
         }
         task.resume()
     }

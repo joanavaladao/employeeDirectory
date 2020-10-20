@@ -87,8 +87,10 @@ private extension EmployeeListViewController {
     @objc func refreshEmployeeList() {
         viewModel.refreshEmployeeList { result in
             switch result {
-            case .success(let _):
-                self.collectionView.reloadData()
+            case .success( _):
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
             case .failure(let error):
                 print(error)
             }

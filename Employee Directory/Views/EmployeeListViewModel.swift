@@ -13,14 +13,18 @@ class EmployeeListViewModel {
     
     private var fullEmployeeList: [Employee] = []
     private var filteredEmployeeList: [Employee] = []
-    private var downloadService: DownloadService?
+    private var downloadService: DownloadService
     private var defaults: UserDefaults
     private var dataChanged: () -> Void
 //    private var handleError: (DownloadErrors) -> Void
     private var fileService: FileService
     private var employees: ManageEmployee
     
-    init(fileService: FileService = FileService(), defaults: UserDefaults = UserDefaults.standard, employeeManager: ManageEmployee = ManageEmployee(), dataChanged: @escaping () -> Void) {
+    init(fileService: FileService = FileService(),
+         defaults: UserDefaults = UserDefaults.standard,
+         employeeManager: ManageEmployee = ManageEmployee(),
+         downloadService: DownloadService = DownloadService(),
+         dataChanged: @escaping () -> Void) {
 //        DispatchQueue.main.async {
 //            appDelegate = UIApplication.shared.delegate as? AppDelegate
 //            context = appDelegate?.persistentContainer.viewContext
@@ -30,6 +34,7 @@ class EmployeeListViewModel {
         self.fileService = fileService
         self.defaults = defaults
         employees = employeeManager
+        self.downloadService = downloadService
     }
     
     func loadInitialInformation() {
@@ -40,7 +45,6 @@ class EmployeeListViewModel {
     }
     
     func refreshEmployeeList(path: String = EmployeeListURL.fullList.rawValue, completionHandler: @escaping (Result<String?, Error>) -> Void) {
-        let downloadService = self.downloadService ?? DownloadService(delegate: self)
         downloadService.startDownload(from: path) { result in
             switch result {
             case .success(let newPath):
