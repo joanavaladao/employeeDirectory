@@ -82,6 +82,10 @@ class ManageEmployee {
     func employee(at indexPath: IndexPath) -> Employee {
         return fetchedRC.object(at: indexPath)
     }
+    
+    func numberOf() -> Int {
+        return fetchedRC.fetchedObjects?.count ?? 0
+    }
 }
 
 private extension ManageEmployee {

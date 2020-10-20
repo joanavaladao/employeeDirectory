@@ -75,20 +75,20 @@ class EmployeeDetailViewModel {
     
     func getImage() -> UIImage {
         let placeHolder: UIImage = UIImage(named: "person") ?? UIImage()
-        if employee.shouldDownloadLargeImage() {
-            downloadImage()
-            if let filename = employee.photoSmallDisk,
-                !filename.isEmpty {
-                let imageURL = fileService.smallImagesFolder.appendingPathComponent(filename)
-                return UIImage(contentsOfFile: imageURL.path) ?? placeHolder
-            }
-        } else {
-            if let filename = employee.photoLargeDisk,
-                !filename.isEmpty {
-                let imageURL = fileService.largeImagesFolder.appendingPathComponent(filename)
-                return UIImage(contentsOfFile: imageURL.path) ?? placeHolder
-            }
-        }
+//        if employee.shouldDownloadLargeImage() {
+//            downloadImage()
+//            if let filename = employee.photoSmallDisk,
+//                !filename.isEmpty {
+//                let imageURL = fileService.smallImagesFolder.appendingPathComponent(filename)
+//                return UIImage(contentsOfFile: imageURL.path) ?? placeHolder
+//            }
+//        } else {
+//            if let filename = employee.photoLargeDisk,
+//                !filename.isEmpty {
+//                let imageURL = fileService.largeImagesFolder.appendingPathComponent(filename)
+//                return UIImage(contentsOfFile: imageURL.path) ?? placeHolder
+//            }
+//        }
         
         return placeHolder
     }
@@ -126,23 +126,23 @@ private extension EmployeeDetailViewModel {
 
     func downloadImage() {
         
-        let downloadService = self.downloadService ?? DownloadService(delegate: self)
-        
-            let diskPath: String = employee.photoLargeDisk ?? ""
-            if !diskPath.isEmpty {
-                fileService.removeFile(at: diskPath)
-                employee.photoLargeDisk = nil
-            }
-            employee.photoLargeURL = employee.photoLargeNewURL
-
-            guard let newDiskPath = employee.photoLargeURL else {
-                return
-            }
-            let filename = "\(employee.uuid)-\(URL(fileURLWithPath: newDiskPath).lastPathComponent)"
-            employee.photoLargeDisk = filename
-            appDelegate?.saveContext()
-            
-            downloadService.startDownload(of: .largeImage, from: newDiskPath, filename: filename)
+//        let downloadService = self.downloadService ?? DownloadService(delegate: self)
+//        
+//            let diskPath: String = employee.photoLargeDisk ?? ""
+//            if !diskPath.isEmpty {
+//                fileService.removeFile(at: diskPath)
+//                employee.photoLargeDisk = nil
+//            }
+//            employee.photoLargeURL = employee.photoLargeNewURL
+//
+//            guard let newDiskPath = employee.photoLargeURL else {
+//                return
+//            }
+//            let filename = "\(employee.uuid)-\(URL(fileURLWithPath: newDiskPath).lastPathComponent)"
+//            employee.photoLargeDisk = filename
+//            appDelegate?.saveContext()
+//            
+//            downloadService.startDownload(of: .largeImage, from: newDiskPath, filename: filename)
         }
 }
 

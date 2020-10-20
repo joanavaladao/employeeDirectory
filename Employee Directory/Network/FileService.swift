@@ -34,22 +34,22 @@ class FileService {
     }
     
     func createDirectories() {
-        do {
-            if !fileManager.fileExists(atPath: temporaryFolder.path) {
-                try fileManager.createDirectory(at: temporaryFolder, withIntermediateDirectories: true, attributes: nil)
-            }
-            
-            if !fileManager.fileExists(atPath: largeImagesFolder.path) {
-                try fileManager.createDirectory(at: largeImagesFolder, withIntermediateDirectories: true, attributes: nil)
-            }
-            
-            if !fileManager.fileExists(atPath: smallImagesFolder.path) {
-                try fileManager.createDirectory(at: smallImagesFolder, withIntermediateDirectories: true, attributes: nil)
-            }
-        } catch (let error) {
-            //TODO handle error
-            print(error)
-        }
+//        do {
+//            if !fileManager.fileExists(atPath: temporaryFolder.path) {
+//                try fileManager.createDirectory(at: temporaryFolder, withIntermediateDirectories: true, attributes: nil)
+//            }
+//            
+//            if !fileManager.fileExists(atPath: largeImagesFolder.path) {
+//                try fileManager.createDirectory(at: largeImagesFolder, withIntermediateDirectories: true, attributes: nil)
+//            }
+//            
+//            if !fileManager.fileExists(atPath: smallImagesFolder.path) {
+//                try fileManager.createDirectory(at: smallImagesFolder, withIntermediateDirectories: true, attributes: nil)
+//            }
+//        } catch (let error) {
+//            //TODO handle error
+//            print(error)
+//        }
     }
     
     func saveTemporaryFile(from path: URL, filename: String) -> Result<URL, Error> {

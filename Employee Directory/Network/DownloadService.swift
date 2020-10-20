@@ -20,6 +20,12 @@ enum DownloadType {
     case smallImage
 }
 
+enum DownloadErrors: Error {
+    case wrongOriginURL
+    case noDestinyURL(_ respose: URLResponse?)
+    case unknown(code: Int, message: String?)
+}
+
 protocol DownloadDelegate {
     func savedTemporaryFile(at url: URL, downloadType: DownloadType)
     func errorDownloadingFile(_ error: Error, downloadType: DownloadType)
@@ -42,46 +48,26 @@ class DownloadService: NSObject {
         self.fileService.createDirectories()
     }
     
-    func startDownload (of type: DownloadType, from path: String, filename: String? = nil) {
+    func startDownload (from path: String, completionHandler handler: @escaping((Result<String, DownloadErrors>) -> Void)) {
         guard let requestURL: URL = URL(string: path) else {
+            handler(.failure(.wrongOriginURL))
             return
         }
-        self.downloadType = type
+
         let task = session.downloadTask(with: requestURL) { url, response, error in
             guard error == nil else {
+                handler(.failure(.unknown(code: 0, message: error?.localizedDescription)))
                 return
             }
-            
+
             guard let url = url else {
+                handler(.failure(.noDestinyURL(response)))
                 return
             }
             
-            switch self.downloadType {
-            case .list:
-                let filename: String = requestURL.lastPathComponent
-                let status = self.fileService.saveTemporaryFile(from: url, filename: filename)
-                switch status {
-                case .success(let url):
-                    self.fileService.persistEmployeeList(file: url)
-                    self.delegate.savedTemporaryFile(at: url, downloadType: .list)
-                case .failure(let error):
-                    self.delegate.errorSavingFile(error, downloadType: self.downloadType)
-                }
-            default:
-                guard let filename = filename else {
-                    return
-                }
-                let destinyURL: URL = self.downloadType == .largeImage ? self.fileService.largeImagesFolder : self.fileService.smallImagesFolder
-                let imageURL = destinyURL.appendingPathComponent(filename)
-                
-                let status = self.fileService.saveFile(from: url, to: imageURL.path)
-                switch status {
-                case .success(_):
-                    self.delegate.savedTemporaryFile(at: url, downloadType: self.downloadType)
-                case .failure(let error):
-                    self.delegate.errorSavingFile(error, downloadType: self.downloadType)
-                }
-            }
+            let filename: String = requestURL.lastPathComponent
+            let status = self.fileService.saveTemporaryFile(from: url, filename: filename)
+            handler(.success(url.path))
         }
         task.resume()
     }

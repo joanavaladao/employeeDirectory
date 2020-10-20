@@ -85,7 +85,14 @@ private extension EmployeeListViewController {
     }
     
     @objc func refreshEmployeeList() {
-        viewModel.refreshEmployeeList()
+        viewModel.refreshEmployeeList { result in
+            switch result {
+            case .success(let _):
+                self.collectionView.reloadData()
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
     
     @objc func sortBy(_ sender: UIBarButtonItem){
