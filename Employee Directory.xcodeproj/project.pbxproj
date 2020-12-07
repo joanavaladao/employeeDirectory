@@ -13,7 +13,7 @@
 		5818DEB224C93E6900FE5F10 /* EmployeeDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5818DEB024C93E6900FE5F10 /* EmployeeDetailViewModel.swift */; };
 		5818DEB324C93E6900FE5F10 /* EmployeeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5818DEB124C93E6900FE5F10 /* EmployeeDetailViewController.swift */; };
 		581E1573252C199300EB09C2 /* Employee+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 581E1571252C199300EB09C2 /* Employee+CoreDataClass.swift */; };
-		581E1574252C199300EB09C2 /* Employee+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 581E1572252C199300EB09C2 /* Employee+CoreDataProperties.swift */; };
+		583111D4257E749800663432 /* Employee+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 583111D3257E749800663432 /* Employee+CoreDataProperties.swift */; };
 		5878DE0124C31F79007E1FC8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5878DE0024C31F79007E1FC8 /* AppDelegate.swift */; };
 		5878DE0324C31F79007E1FC8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5878DE0224C31F79007E1FC8 /* SceneDelegate.swift */; };
 		5878DE0524C31F79007E1FC8 /* EmployeeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5878DE0424C31F79007E1FC8 /* EmployeeListViewController.swift */; };
@@ -78,7 +78,7 @@
 		5818DEB024C93E6900FE5F10 /* EmployeeDetailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmployeeDetailViewModel.swift; sourceTree = "<group>"; };
 		5818DEB124C93E6900FE5F10 /* EmployeeDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmployeeDetailViewController.swift; sourceTree = "<group>"; };
 		581E1571252C199300EB09C2 /* Employee+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Employee+CoreDataClass.swift"; sourceTree = "<group>"; };
-		581E1572252C199300EB09C2 /* Employee+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Employee+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		583111D3257E749800663432 /* Employee+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Employee+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		5878DDFD24C31F79007E1FC8 /* Employee Directory.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Employee Directory.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5878DE0024C31F79007E1FC8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5878DE0224C31F79007E1FC8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -176,8 +176,8 @@
 		5878DE2A24C4B058007E1FC8 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				583111D3257E749800663432 /* Employee+CoreDataProperties.swift */,
 				581E1571252C199300EB09C2 /* Employee+CoreDataClass.swift */,
-				581E1572252C199300EB09C2 /* Employee+CoreDataProperties.swift */,
 				58E2945D252FB8C600C6906E /* ManageEmployee.swift */,
 			);
 			path = Model;
@@ -358,8 +358,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				581E1574252C199300EB09C2 /* Employee+CoreDataProperties.swift in Sources */,
 				5878DE0524C31F79007E1FC8 /* EmployeeListViewController.swift in Sources */,
+				583111D4257E749800663432 /* Employee+CoreDataProperties.swift in Sources */,
 				581E1573252C199300EB09C2 /* Employee+CoreDataClass.swift in Sources */,
 				5818DEAF24C93E5900FE5F10 /* EmployeeDetailPhotoCell.swift in Sources */,
 				5878DE0124C31F79007E1FC8 /* AppDelegate.swift in Sources */,

@@ -6,7 +6,7 @@
 //  Copyright © 2020 Joana Valadao. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import CoreData
 
 enum SortBy {
@@ -47,6 +47,7 @@ class ManageEmployee {
     private var sort: SortBy = .name
     
     init() {
+        context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         refresh()
     }
     
@@ -80,13 +81,20 @@ class ManageEmployee {
             print("Error - \(error)")
         }
     }
-    
+
     func employee(at indexPath: IndexPath) -> Employee {
         return fetchedRC.object(at: indexPath)
     }
     
     func numberOf() -> Int {
         return fetchedRC.fetchedObjects?.count ?? 0
+    }
+    
+    
+    // TODO: implement this function to return the image (or download if necessary)
+    func getSmallImage(employeeAt index: IndexPath) -> UIImage? {
+//        let e = employee(at: index)
+//        if e.photoSmallURL == e.photoSmallDownloadedURL
     }
 }
 

@@ -7,8 +7,10 @@
         <attribute name="fullName" optional="YES" attributeType="String"/>
         <attribute name="phoneNumber" optional="YES" attributeType="String"/>
         <attribute name="photoLarge" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
+        <attribute name="photoLargeDownloadedURL" optional="YES" attributeType="String"/>
         <attribute name="photoLargeURL" optional="YES" attributeType="String"/>
         <attribute name="photoSmall" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
+        <attribute name="photoSmallDownloadedURL" optional="YES" attributeType="String"/>
         <attribute name="photoSmallURL" optional="YES" attributeType="String"/>
         <attribute name="team" optional="YES" attributeType="String"/>
         <attribute name="uuid" attributeType="String"/>
@@ -19,6 +21,6 @@
         </uniquenessConstraints>
     </entity>
     <elements>
-        <element name="Employee" positionX="-63" positionY="-18" width="128" height="208"/>
+        <element name="Employee" positionX="-63" positionY="-18" width="128" height="238"/>
     </elements>
 </model>

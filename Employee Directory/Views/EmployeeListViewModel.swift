@@ -11,8 +11,8 @@ import CoreData
 
 class EmployeeListViewModel {
     
-    private var fullEmployeeList: [Employee] = []
-    private var filteredEmployeeList: [Employee] = []
+//    private var employeeList: [Employee] = []
+//    private var filteredEmployeeList: [Employee] = []
     private var downloadService: DownloadService
     private var defaults: UserDefaults
     private var dataChanged: () -> Void
@@ -99,7 +99,7 @@ class EmployeeListViewModel {
     
     func getImage(for index: IndexPath) -> UIImage {
         let placeHolder: UIImage = UIImage(named: "person") ?? UIImage()
-//
+        let employee = employees.employee(at: index)
 //        guard let filename = filteredEmployeeList[index.row].photoSmallDisk else {
 //            return placeHolder
 //        }
