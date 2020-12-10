@@ -98,14 +98,20 @@ class EmployeeListViewModel {
     }
     
     func getImage(for index: IndexPath) -> UIImage {
-        let placeHolder: UIImage = UIImage(named: "person") ?? UIImage()
-        let employee = employees.employee(at: index)
-//        guard let filename = filteredEmployeeList[index.row].photoSmallDisk else {
-//            return placeHolder
-//        }
-//        let imageURL = fileService.smallImagesFolder.appendingPathComponent(filename)
-//        return UIImage(contentsOfFile: imageURL.path) ?? placeHolder
-        return placeHolder
+        guard let image = employees.getSmallImage(employeeAt: index) else {
+            // TODO: IMPLEMENT THE DOWNLOAD FUNCTION
+            employees.downloadImage(forEmployeeAt: index) { result in
+                switch result {
+                case .success:
+                    self.dataChanged()
+                case .failure(let error):
+                    print(error)
+                }
+                
+            }
+            return UIImage(named: "person") ?? UIImage()
+        }
+        return image
     }
     
     func sortBy(_ type: SortBy? = nil) {

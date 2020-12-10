@@ -90,11 +90,42 @@ class ManageEmployee {
         return fetchedRC.fetchedObjects?.count ?? 0
     }
     
-    
-    // TODO: implement this function to return the image (or download if necessary)
+    func getImage(from path: String, completionHandler: Result<)
+
     func getSmallImage(employeeAt index: IndexPath) -> UIImage? {
-//        let e = employee(at: index)
-//        if e.photoSmallURL == e.photoSmallDownloadedURL
+        let employee = self.employee(at: index)
+        
+        guard let newPhotoURL = employee.photoSmallURL,
+            let downloadedPhotoURL = employee.photoSmallDownloadedURL,
+            newPhotoURL == downloadedPhotoURL,
+            let data = employee.photoSmall else {
+                employee.photoSmallDownloadedURL = nil
+                employee.photoSmall = nil
+                appDelegate.saveContext()
+                return nil
+        }
+        return UIImage(data: data)
+    }
+    
+    func downloadImage(forEmployeeAt index: IndexPath,
+                       downloadService: DownloadService = DownloadService(),
+                       completionHandler: @escaping (Result<Void, DownloadErrors>) -> Void) {
+        let employee = self.employee(at: index)
+        guard let path = employee.photoSmallURL else {
+            completionHandler(.failure(.noOriginURL))
+            return
+        }
+
+        downloadService.startDownload(from: path) { result in
+            switch result {
+            case .success(let newPath):
+                employee.photoSmall = UIImage(contentsOfFile: newPath)?.pngData() as Data?
+                appDelegate.saveContext()
+                completionHandler(.success(()))
+            case .failure(let error):
+                completionHandler(.failure(error))
+            }
+        }
     }
 }
 

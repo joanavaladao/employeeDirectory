@@ -22,7 +22,8 @@ enum DownloadType {
 
 enum DownloadErrors: Error {
     case wrongOriginURL
-    case noDestinyURL(_ respose: URLResponse?)
+    case noOriginURL
+    case noDestinyURL(_ response: URLResponse?)
     case unknown(code: Int, message: String?)
 }
 

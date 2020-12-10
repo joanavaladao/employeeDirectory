@@ -29,6 +29,6 @@ extension Employee {
     @NSManaged public var team: String?
     @NSManaged public var uuid: String?
     @NSManaged public var photoLargeDownloadedURL: String?
-    @NSManaged public var photoSmallDownloadedURL: NSObject?
+    @NSManaged public var photoSmallDownloadedURL: String?
 
 }
