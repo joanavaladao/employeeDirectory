@@ -49,7 +49,6 @@ class EmployeeListViewController: UIViewController {
         super.viewDidLoad()
         setupBars()
         setupView()
-        viewModel.loadInitialInformation()
     }
 }
 

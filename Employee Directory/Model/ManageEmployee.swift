@@ -41,13 +41,17 @@ enum EmployeeType: String {
     case contractor = "CONTRACTOR"
 }
 
+enum ImageSize {
+    case small
+    case large
+}
+
 class ManageEmployee {
     private var fetchedRC: NSFetchedResultsController<Employee>!
     private var query: String = ""
     private var sort: SortBy = .name
     
     init() {
-        context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         refresh()
     }
     
@@ -81,6 +85,40 @@ class ManageEmployee {
             print("Error - \(error)")
         }
     }
+    
+    func loadEmployees(from path: String, completionHandler: @escaping (Result<Void, DownloadErrors>) -> Void) {
+        refresh()
+        let decoder = JSONDecoder()
+
+        do {
+            let data = try Data(contentsOf: URL(fileURLWithPath: path))
+            let employeesDict = try decoder.decode([String: [EmployeeJSON]].self, from: data)
+            
+            guard let employees = employeesDict["employees"] else {
+                print("no employees")
+                return
+            }
+            
+            for employee in employees {
+                let newEmployee: Employee = getEmployee(uuid: employee.uuid) ?? Employee(entity: Employee.entity(), insertInto: context)
+                newEmployee.uuid = employee.uuid
+                newEmployee.fullName = employee.full_name
+                newEmployee.phoneNumber = employee.phone_number
+                newEmployee.email = employee.email_address
+                newEmployee.biography = employee.biography
+                newEmployee.photoSmallURL = employee.photo_url_small
+                newEmployee.photoLargeURL = employee.photo_url_large
+                newEmployee.team = employee.team
+                newEmployee.employeeType = employee.employee_type.uppercased()
+            }
+            appDelegate.saveContext()
+            refresh()
+            self.getSmallImages(completionHandler: completionHandler)
+        } catch let error {
+            print("Error - \(error)")
+            completionHandler(.failure(.unknown(code: 1, message: "No content in the file")))
+        }
+    }
 
     func employee(at indexPath: IndexPath) -> Employee {
         return fetchedRC.object(at: indexPath)
@@ -90,42 +128,66 @@ class ManageEmployee {
         return fetchedRC.fetchedObjects?.count ?? 0
     }
     
-    func getImage(from path: String, completionHandler: Result<)
-
-    func getSmallImage(employeeAt index: IndexPath) -> UIImage? {
-        let employee = self.employee(at: index)
+    func getSmallImages(downloadService: DownloadService = DownloadService(),
+                        completionHandler: @escaping (Result<Void, DownloadErrors>)->Void) {
+        guard let employees = fetchedRC.fetchedObjects else {
+            completionHandler(.success(()))
+            return
+        }
         
-        guard let newPhotoURL = employee.photoSmallURL,
-            let downloadedPhotoURL = employee.photoSmallDownloadedURL,
-            newPhotoURL == downloadedPhotoURL,
-            let data = employee.photoSmall else {
-                employee.photoSmallDownloadedURL = nil
-                employee.photoSmall = nil
-                appDelegate.saveContext()
-                return nil
+        for employee in employees {
+            guard let newPhotoURL = employee.photoSmallURL else {
+                completionHandler(.failure(.noOriginURL))
+                return
+            }
+            
+            guard let downloadedPhotoURL = employee.photoSmallDownloadedURL,
+                newPhotoURL == downloadedPhotoURL,
+                let _ = employee.photoSmall else {
+                    employee.photoSmallDownloadedURL = nil
+                    employee.photoSmall = nil
+                    downloadService.startDownload(from: newPhotoURL) { result in
+                        switch result {
+                        case .success(let newPath):
+                            employee.photoSmall = UIImage(contentsOfFile: newPath)?.pngData() as Data?
+                            employee.photoSmallDownloadedURL = newPhotoURL
+                            appDelegate.saveContext()
+                            completionHandler(.success(()))
+                        case .failure(let error):
+                            completionHandler(.failure(error))
+                        } // switch
+                    } // download
+                    continue
+            } // guard
+        } // for
+        completionHandler(.success(()))
+    }
+    
+    func getSmallImage(employeeAt index: IndexPath) -> UIImage? {
+        guard let data = fetchedRC.object(at: index).photoSmall else {
+            return nil
         }
         return UIImage(data: data)
     }
     
-    func downloadImage(forEmployeeAt index: IndexPath,
-                       downloadService: DownloadService = DownloadService(),
-                       completionHandler: @escaping (Result<Void, DownloadErrors>) -> Void) {
-        let employee = self.employee(at: index)
-        guard let path = employee.photoSmallURL else {
-            completionHandler(.failure(.noOriginURL))
-            return
-        }
-
-        downloadService.startDownload(from: path) { result in
-            switch result {
-            case .success(let newPath):
-                employee.photoSmall = UIImage(contentsOfFile: newPath)?.pngData() as Data?
-                appDelegate.saveContext()
-                completionHandler(.success(()))
-            case .failure(let error):
-                completionHandler(.failure(error))
-            }
-        }
+    func getEmployee(uuid: String) -> Employee? {
+        return fetchedRC.fetchedObjects?.first(where: { $0.uuid == uuid })
+    }
+    
+    func sortBy(type: SortBy, completionHandler: ()->Void) {
+        sort = type
+        refresh()
+        completionHandler()
+    }
+    
+    func filterBy(condition: String?, completionHandler: ()->Void) {
+        query = condition ?? ""
+        refresh()
+        completionHandler()
+    }
+    
+    func filteredEmployees() -> [Employee]? {
+        return fetchedRC.fetchedObjects
     }
 }
 
