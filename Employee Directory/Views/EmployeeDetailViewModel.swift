@@ -74,22 +74,22 @@ class EmployeeDetailViewModel {
     }
     
     func getImage() -> UIImage {
-        let placeHolder: UIImage = UIImage(named: "person") ?? UIImage()
-//        if employee.shouldDownloadLargeImage() {
-//            downloadImage()
-//            if let filename = employee.photoSmallDisk,
-//                !filename.isEmpty {
-//                let imageURL = fileService.smallImagesFolder.appendingPathComponent(filename)
-//                return UIImage(contentsOfFile: imageURL.path) ?? placeHolder
-//            }
-//        } else {
-//            if let filename = employee.photoLargeDisk,
-//                !filename.isEmpty {
-//                let imageURL = fileService.largeImagesFolder.appendingPathComponent(filename)
-//                return UIImage(contentsOfFile: imageURL.path) ?? placeHolder
-//            }
-//        }
+        if employee.hasLargeImage(),
+            let data = employee.photoLarge,
+            let image = UIImage(data: data)  {
+            return image
+        }
         
+        employee.downloadLargeImage { result in
+            switch result {
+            case .success():
+                self.dataChanged()
+            case .failure(let error):
+                print(error)
+            }
+        }
+        
+        let placeHolder: UIImage = UIImage(named: "person") ?? UIImage()
         return placeHolder
     }
     
